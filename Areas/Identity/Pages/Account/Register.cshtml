@@ -1,0 +1,67 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "ĐĂNG KÝ TÀI KHOẢN";
+}
+
+<div class="boxregister">
+    <h3 class="mb-3">@ViewData["Title"]</h3>
+
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div class="row px-3 mb-4">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="row px-3">
+            <label class="mb-1">
+                <h6 class="mb-0 text-sm text-bold">Tên đăng nhập</h6>
+            </label>
+        </div>
+        <div class="form-login__row">
+            <span><img style="z-index: 10;" src="../../assets/images/user-login.svg" alt=""></span>
+            <input asp-for="Input.UserName" class="form-control" aria-required="true" placeholder="Nhập Tên đăng nhập" />
+            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+        </div>
+        <div class="row px-3">
+            <label class="mb-1">
+                <h6 class="mb-0 text-sm text-bold">Địa chỉ email</h6>
+            </label>
+        </div>
+        <div class="form-login__row">
+            <span><img style="z-index: 10;" src="../../assets/images/user-login.svg" alt=""></span>
+            <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="Nhập địa chỉ email" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="row px-3">
+            <label class="mb-1">
+                <h6 class="mb-0 text-sm text-bold">Nhập Mật khẩu</h6>
+            </label> 
+        </div>
+        <div class="form-login__row">
+            <span><img style="z-index: 10;" src="../../assets/images/pass.svg" alt=""></span>
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Nhập Mật khẩu" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="row px-3">
+            <label class="mb-1">
+                <h6 class="mb-0 text-sm text-bold">Xác nhận mật khẩu</h6>
+            </label> 
+        </div>
+        <div class="form-login__row">
+            <span><img style="z-index: 10;" src="../../assets/images/pass.svg" alt=""></span>
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Xác nhận mật khẩu" />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-login__row pass-code mb-0">
+            <button type="submit" class="btn btn-blue text-center">Đăng ký</button>
+        </div>
+        <div class="form-login__row pass-code register-btn pt-2 mb-0">
+            <small class="font-weight-bold">Bạn đã có tài khoản? <a class="text-info" href="/Identity/Account/Login">Đăng nhập</a></small>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

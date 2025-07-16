@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+<div class="row">
+    <div class="col-12">
+        <div class="card card-gray">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="card-title "><b>Lập kế hoạch</b></h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="dinhkytheonam-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></th>
+                            <th rowspan="3" style="text-align:center;">
+                                <b>
+                                    KẾ HOẠCH BẢO DƯỠNG THIẾT BỊ ĐỊNH KỲ
+                                </b>
+                                <br /><span id="spanCurentYear">2021</span>
+                            </th>
+                            <th>Người lập kế hoạch</th>
+                            <th>Trưởng ngành</th>
+                            <th>TĐV/UQ</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div class="form-group">
+                                    <label for="selectFactory">Xưởng:</label><span id="spanCurentFactoryName">LED, TBCD</span>
+                                </div>
+                            </th>
+                            <td rowspan="2" style="text-align:center;" id="tdPlanCreate_detai"></td>
+                            <td rowspan="2" style="text-align:center;" id="idBranch_detai"></td>
+                            <td rowspan="2" style="text-align:center;" id="tdAuthority_detai"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div class="form-group">
+                                    <label for="Name">Ngành:</label><span id="spanCurentBranchName">LED2, TBCD</span>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Số: <span id="spanCurentPlanDeviceNumber"></span></th>
+                            <th>
+                                <div class="form-group">
+                                    <label for="Name">Thiết bị: <span id="spanCurentDeviceName"></span></label>
+                                </div>
+                            </th>
+                            <th><span id="spanCurentDatePlan">Ngày / tháng/ năm</span></th>
+                            <th><span ></span></th> 
+                            <th><span ></span></th> 
+                            @* <th><span id="spanCurentDateBranch">Ngày / tháng/ năm</span></th> *@
+                            @* <th><span id="spanCurentDateAuthority">Ngày / tháng/ năm</span></th> *@
+                        </tr>
+                    </thead>
+                </table>
+                <table id="noidung-details-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">STT</th>
+                            <th rowspan="2">Nội dung sửa chữa, bảo dưỡng</th>
+                            <th colspan="12">Tháng</th>
+                            <th rowspan="2">Bộ phận thực hiện</th>
+                            <th rowspan="2">Hưỡng dẫn, Quy trình (nếu có)</th>
+                            <th rowspan="2" colspan="2">Ghi chú</th>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                </table>                           
+            </div>
+            <!-- /.card-body -->
+            <div>
+                <button type="button" class="ml-auto btn btn-success" onclick="ShowModalContentPlanDevice(-1)">Thêm nội
+                    dung</button>
+                <button style="display:none;" type="button" class="ml-auto btn btn-success" onclick="ShowModalReportPlan(-1)">Biên bản nghiệm thu</button>
+            </div>
+            <p><span>* Ghi chú: Các đơn vị có thể bổ sung nội dung tùy theo đặc điểm máy móc công nghệ</span></p>
+            <p>
+                File đính kèm:
+                <button type="button" id="btShowFile" class="btn btn-info btn-xs"><i class="fa-solid fa-eye"></i></button>
+                <button type="button" id="btAddFile" class="btn btn-warning btn-xs"><i class="fa-solid fa-paperclip"></i></button>
+            </p>
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

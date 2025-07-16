@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">    
+    <div class="row" style="padding-bottom:5px;">
+        <div class="col-12 col-sm-6 col-md-2 text-right float-right">
+            <label>Chọn thời gian báo cáo</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                </div>
+                <input type="text" class="form-control float-right" id="reservationtime">
+            </div>
+            <!-- /.input group -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-2 text-right float-right">
+            <label>Chọn vị trí</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                        class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                        class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn tổ" id="selectTeam" name="selectTeam" class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn dây chuyền" id="selectLine" name="selectLine" class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>       
+    </div>
+    <div class="row" style="padding-bottom:5px;">
+        <div class="col-12 col-sm-6 col-md-2 text-right float-right">
+            <label>Chọn thiết bị</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+                <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice"
+                        class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <button type="button" class="btn btn-block btn-warning" onclick="CreateReport()"><i class="fa-regular fa-eye"></i> Xem kết quả</button>
+        </div>
+    </div>
+    <!-- /.row -->
+    @*Biểu đồ*@
+    <div class="card card-primary card-outline">
+        <div class="card-header" id="divHeader4">
+            <h3 class="card-title">
+                <label>
+                    <i class="fa-solid fa-clock-rotate-left fa-1x"></i>
+                   <span id="spanTittle1">Kết quả báo cáo chi tiết sự cố thiết bị</span>
+                </label>
+            </h3>
+        </div>
+        <div class="card-body" id="divBody4">
+            <table id="viewhome-table" class="table table-bordered table-hover">
+            </table>
+        </div>
+        <!-- /.card-body-->
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+@section Scripts{
+    <script language="javascript" type="text/javascript" src="~/plugins/flot/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="~/plugins/flot/plugins/jquery.flot.resize.js"></script>
+    <script language="javascript" type="text/javascript" src="~/plugins/flot/plugins/jquery.flot.pie.js"></script>
+    <script>
+        loadScript('../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../MledIdentity/lib/js/page/report.report.infor.js', function () {
+                        loadScript('../MledIdentity/lib/js/page/report.report4.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('Report1');
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}
+
+

@@ -1,0 +1,224 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="row" id="divMainInformation">
+    <div class="col-md-3">
+        <!-- Profile Image  class="form-control"-->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <img class="fas fa-paint-brush" id="imgQRcode" src="~/img/none_QR.jpg" style="width:120px;" />
+                    </div>
+                    <div class="col-md-6 align-text-bottom">
+                        <label id="lableThongbao" class="text-danger">Không tìm thấy thiết bị này</label>
+                        <h3 class="text-primary" style="padding-top:10px"><input type="text" name="QRCode" id="QRCode" class="form-control text-center" style="font-weight:bold;" value="" /> </h3>
+                    </div>
+                </div>                
+            </div>
+            <div class="card-body box-profile card-primary card-outline">
+                <strong><i class="fas fa-book fa-2xs fa-2xs"></i> Tên thiết bị</strong>
+                <p class="text-muted">
+                    <input type="text" name="Name" id="Name" class="form-control text-center" value="Máy dán hộp tự động số 2" readonly />
+                </p>
+                <hr>
+                <strong><i class="fas fa-map-marker-alt fa-2xs"></i>Vị trí lắp đặt</strong>
+                <div class="text-center">
+                    <input type="text" name="Address" id="Address" class="form-control text-center" value="Dây chuyền: " readonly />
+                </div>
+                <hr>
+                <strong><i class="fa-solid fa-phone fa-2xs"></i> Xuất xứ</strong>
+                <div class="text-center">
+                    <input type="text" name="Origin" id="Origin" class="form-control text-center" value="Trung Quốc" readonly />
+                </div>
+                <hr>
+                <strong><i class="fa-solid fa-fax fa-2xs"></i> Thuộc tính</strong>
+                <div class="text-center">
+                    <input type="text" name="Properties" id="Properties" class="form-control text-center" value="" readonly />
+                </div>
+                <hr>
+                <strong><i class="fa-solid fa-envelope fa-2xs"></i> Chu kỳ bảo dưỡng
+                    </strong>
+                <div class="text-center">
+                    <input type="text" name="MaintenanceCycle" id="MaintenanceCycle" class="form-control text-center" value="" readonly />
+                </div>
+                <hr>
+                <strong><i class="fa-solid fa-globe fa-2xs"></i> Năm sản xuất - Năm đưa vào sử dụng</strong>
+                <div class="text-center">
+                    <input type="text" name="TimeReceived" id="TimeReceived" class="form-control text-center" value="2018" readonly />
+                </div>
+                <strong><i class="fa-solid fa-globe fa-2xs"></i> Thông tin khác</strong>
+                <div class="text-center">
+                    <textarea type="text" name="Description" id="Description" class="form-control text-center" rows="5" ></textarea>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="card card-primary card-outline">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Lịch sử di chuyển</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch sử sự cố</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Lịch sử bảo dưỡng, sửa chữa</a></li>
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+                        @*Giấy chứng nhận*@
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Lịch sử di chuyển thiết bị từ khi tiếp nhận thiết bị</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <!-- The timeline -->
+                                <div id="content-location-document"></div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="timeline">
+                        <!-- The timeline -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Lịch sử sự cố với thiết bị</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <!-- The timeline -->
+                                <table id="content-trouble-table" class="table table-hover my-0">
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="settings">
+                        @*Chỉ định đánh giá sự phù hợp*@
+                        <div class="card">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title"> Hoạt động bảo dưỡng, sữa chữa thiết bị</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table id="content-repair-table" class="table table-hover my-0">
+                                    </table>
+                                </div>                             
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.tab-pane -->               
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<!-- /.container-fluid -->
+<div class="modal fade" id="modal-scandevice-managerlist" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-managerlist">Quét tìm QR thiết bị</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <div id="qr-reader" style="width:99%"></div>
+                <div id="qr-reader-results"></div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script src="js/html5-qrcode.min.js"></script>
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/list.device.QRscan.js', function () {
+                        function docReady(fn) {
+                            console.log('docReady');
+                            $('#modal-scandevice-managerlist').modal();
+                            // see if DOM is already available
+                            if (document.readyState === "complete"
+                                || document.readyState === "interactive") {
+                                // call on next available tick
+                                setTimeout(fn, 1);
+                            } else {
+                                document.addEventListener("DOMContentLoaded", fn);
+                            }
+                        }
+
+                        docReady(function () {
+                            var resultContainer = document.getElementById('qr-reader-results');
+                            var lastResult, countResults = 0;
+                            async function onScanSuccess(decodedText, decodedResult) {
+                                if (decodedText !== lastResult) {
+                                    ++countResults;
+                                    lastResult = decodedText;
+                                    // Handle on success condition with the decoded message.
+                                    console.log(`Scan result ${decodedText}`, decodedResult);
+                                    $("#QRCode").val(decodedText);
+                                    $('#modal-scandevice-managerlist').modal('toggle');
+                                }
+                            }
+
+                            var html5QrcodeScanner = new Html5QrcodeScanner(
+                                "qr-reader", { fps: 10, qrbox: 250 });
+                            html5QrcodeScanner.render(onScanSuccess);
+                        });
+
+                        $(document).ready(function () {
+                            InnitPage('QRscan');
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+

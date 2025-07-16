@@ -1,0 +1,329 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@model (string funName, string titleName)
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<span id="spanDeviceName" style="display:none;"></span>
+<span id="SpanPlanMonth" style="display:none;"></span>
+<span id="SpanPlanYear" style="display:none;"></span>
+<div class="container-fluid">
+    @* <Kế hoạch hàng ngày hàng tuần> *@
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Model.funName</h3>
+                    <div class="row" style="width:88%; float:left;">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                         <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn tổ" id="selectTeam" name="selectTeam"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;" >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn dây chuyền" id="selectLine" name="selectLine"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="row fc-header-toolbar fc-toolbar fc-toolbar-ltr">
+                                    <div class="col-2 fc-toolbar-chunk">
+                                        <div class="btn-group">
+                                            <button type="button" title="Hôm qua" aria-pressed="false" class="fc-prev-button btn btn-primary" onclick="BackToPreDay()">
+                                                <span class="fa fa-chevron-left"></span>
+                                            </button>
+                                            <button type="button" title="Về hôm nay" aria-pressed="false" class="fc-next-button btn btn-primary" onclick="NextToPreDay()">
+                                                <span class="fa fa-chevron-right"></span>
+                                            </button>
+                                        </div><button type="button" title="Hôm nay" aria-pressed="false" class="fc-today-button btn btn-primary"  onclick="GotoDay()">Hôm nay</button>
+                                    </div>
+                                    <div class="col-4 fc-toolbar-chunk"><h4 class="fc-toolbar-title" id="fc-dom-1"><label id="lblDayString"></label></h4></div>
+                                    <div class="col-6 fc-toolbar-chunk"><h4 class="fc-toolbar-title" id="fc-dom-1"><span id="SpanPlanDonVi"></span></h4></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tools" style="float: right;">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body" id="divMainInformation">
+                    <div class="row">
+                        <div class="col-12">
+                            <ul id="ulPladDailyDay" class="products-list product-list-in-card">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <!-- /.row -->
+    @* <GHi ghép bất thường sự cố> *@
+    <div class="row" id="divPlanTrouble">
+        <div class="col-12">
+            <div class="card card-info card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <b><a>Sự cố, bất thường mới</a> (Ghi chép khi có sự cố, bất thường)</b>
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="TroubleContent">Mô tả hỏng hóc</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="TroubleContent"
+                                          name="TroubleContent"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="selectComponent">Các thành phần bị hỏng/bị ảnh hưởng</label>
+                                <select id="selectComponent" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 100%;" multiple="multiple"
+                                        data-placeholder="Chọn một hoặc nhiều thành phần">
+                                </select>
+                            </div>
+                        </div>                       
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="ContentAndResult">Nội dung và kết quả xử lý</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="ContentAndResult"
+                                          name="ContentAndResult"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="Conclusion">Kết luận</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="Conclusion"
+                                          name="Conclusion"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*Chi tiết sự cố*@
+                <div class="row" id="divlineRepairContent">
+                    <div class="col-12">
+                        <div class="card card-info card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title"><b><a>Chi tiết kiểm tra</a> (Nội dung bảo dưỡng, sửa chữa thiết bị)</b></h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body" style="display: block;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="rangeDatetimeStop">Thời gian dừng máy (Từ ... đến ...):</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                                </div>
+                                                <!-- TimeStopBegin-TimeStopEnd -->
+                                                <input type="text" class="form-control float-right" id="rangeDatetimeStop">
+                                            </div>
+                                            <!-- /.input group -->
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <div class="icheck-success d-inline">
+                                                <input type="checkbox" id="ckHasReport">
+                                                <label for="ckHasReport">
+                                                    Sự cố nghiêm trọng
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="LocationDetai">Cụm chi tiết</label>
+                                            <input type="text" id="LocationDetai" class="form-control" name="LocationDetai">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="RepairContent">Nội dung sửa chữa</label>
+                                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="RepairContent" name="RepairContent"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="selectRepairUser">Người sửa chữa</label>
+                                            <select id="selectRepairUser" class="form-control-sm select2 select2-info"
+                                                    data-dropdown-css-class="select2-info" style="width: 90%;" multiple="multiple"
+                                                    data-placeholder="Chọn một hoặc nhiều người thực hiện" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="Note">Ghi chú</label>
+                                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="Note" name="Note"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.card-body -->
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddTroubleWorker()">
+                        <span aria-hidden="true">&times;</span>&nbsp;Hủy thông tin
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="SavePlanDailyTroubleWorker()">
+                        <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu sự cố bất thường
+                    </button>
+                </div>
+                <div class="card card-info card-outline">
+                <div class="card-body">
+                    <table id="daily-trouble-details-table" class="table table-bordered table-hover">
+                    </table>
+                    <p><span>RĐ.QT15.BM03. Ban hành lần 1</span></p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<!-- /.container-fluid -->
+<div class="modal fade" id="modal-delete-plandaylytrouble" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-plandaylytrouble">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <p>Bạn có chắc muốn xóa dữ liệu này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeletePlanDailyTrouble()"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/plan.daily.worker.js', function () {
+                            loadScript('MledIdentity/lib/js/page/plan.dailydetail.worker.js', function () {
+                                loadScript('MledIdentity/lib/js/page/plan.dailytrouble.worker.js', function () {
+                                        $(document).ready(function () {
+                                            InnitPage('PlanDaily');
+                                        });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}

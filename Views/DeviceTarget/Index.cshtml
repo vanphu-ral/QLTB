@@ -1,0 +1,269 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Target.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Target.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Target.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" id="divMainInformation">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                                <input type="hidden" name="seYear" id="seYear" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="scl_daitu-details-table" class="table table-bordered table-hover" width: 100%;>
+                        <thead>
+                            <tr>
+                                <th style="width:20%"><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></th>
+                                <th colspan="3" style="text-align:center;">
+                                    <p>KẾT QUẢ THỰC HIỆN MỤC TIÊU QUẢN LÝ THIẾT BỊ</p>
+                                    <p><span id="SpanPlanMonth"></span> / <span id="SpanPlanYear"></span></p>
+                                </th>
+                                <th colspan="2">
+                                    <p>Đơn vị: <span id="SpanPlanDonVi"></span></p>
+                                    @*<p><span id="SpanDeviceTargetNumber"></span></p>*@
+                                    <p><span id="SpanDieuChinh"></span></p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Nội dung</th>
+                                <th style="width:25%">Mục tiêu</th>
+                                <th style="width:25%">Kết quả thực hiện</th>
+                                <th style="width:7%">Đánh giá</th>
+                                <th style="width:14%">Kế hoạch tiếp theo</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <p><span>RĐ.QT15.BM02b. Ban hành lần 1</span></p>
+                        <p>File đính kèm: 
+                            <button type="button" id="btShowFile" class="btn btn-info btn-xs" ><i class="fa-solid fa-eye"></i></button>
+                        <button type="button" id="btAddFile"  class="btn btn-warning btn-xs"><i class="fa-solid fa-paperclip"></i></button>
+                    </p>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal_chitiet-scl_daitu" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-scl_daitu"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearFornNewDetai()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearFornNewDetai()">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal_add-scbdthietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-scbdthietbi"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearFornNewDetai()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearFornNewDetai()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="UpdateDeviceTargetDetail()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-CreateToAdjust" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo bản điều chỉnh kế hoạch</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style=" text-decoration-style:initial;"><i class="fa-solid fa-question text-warning"></i>&nbsp;&nbsp;Bạn có chắc chắn muốn tạo bản điểu chỉnh cho hồ sơ này?</p>
+                <p> (Sau khi tạo bản điều chỉnh, Hồ sơ hiện tại sẽ được lưu trong dữ liệu hồ sơ, người dùng không thể thay đổi thông tin của hồ sơ cũ nữa.)</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="ActCreateToAdjust()">
+                    <i class="far fa-save"></i>&nbsp;Tạo bản điều chỉnh
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- /.modal -->
+<div class="modal fade" id="modal-upload-filescan" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-upload-filescan">Đính kèm file kế hoạch</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="exampleInputFile">Chọn file</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" name="exampleInputFile">
+                                <label class="custom-file-label" id="labelexampleInputFile" for="exampleInputFile"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveUploadFile()"><i class="fa-solid fa-trash-can"></i>&nbsp;Upload File</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-show-file">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-PDF">Nội dung chính:</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="UrlFile" value="" id="UrlFile" />
+                <div class='embed-responsive' style='padding-bottom:90%'>
+                    <embed id="idEmbedPDF" type="application/pdf" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/target.devicetarget.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('DeviceTarget');
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+
+}
+
+

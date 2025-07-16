@@ -1,0 +1,108 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-header">
+        <h3 class="card-title"><b><a>Chọn vật tư</a> (Chọn vật tư/phụ tùng)</b></h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <p>Đơn vị:<span id="spanEditDonvi"></span></p>
+                    <p><span id="SpanEditPlanMonthYear"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="selectTeam">Chọn tổ</label>
+                    <select placeholder="Chọn tổ" id="selectTeam" name="selectTeam"
+                            class="form-control-sm select2 select2-info"
+                            data-dropdown-css-class="select2-info" style="width: 90%;">
+                    </select>
+                </div>
+                <div class="form-group" id="divAddThietBi" style="display:none;">
+                    <label for="selectAddSupplie">Vật tư, phụ tùng</label>:
+                    <select placeholder="Chọn vật tư" id="selectAddSupplie" name="selectAddSupplie"
+                            class="form-control-sm select2 select2-info" data-dropdown-css-class="select2-info"
+                            style="width: 90%;">
+                    </select>
+                </div>
+                <div class="form-group" id="divLableThietBi" style="display:none;">
+                    <p>Vật tư, phụ tùng: <span id="spanEditThietBi"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer" id="divFooterThietbi" style="display:block;">
+        <a class="btn btn-primary btn-sm" onclick="SaveNewPlanDevice();">Đồng ý</a>
+    </div>
+</div>
+<!-- /.card -->
+
+<div class="card card-info card-outline" id="divlineContentTable" style="display:none;">
+    <div class="card-header">
+        <h3 class="card-title"><b><a>Nội dung chi tiết kế hoạch vật tư, phụ tùng</a></b></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="SupplieCode">Ký mã hiệu, bản vẽ</label>
+                    <input type="text" id="SupplieCode" class="form-control" name="SupplieCode" readonly autofocus>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Manufacture">Nhà cung cấp</label>
+                    <input type="text" id="Manufacture" class="form-control" name="Manufacture" readonly autofocus>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="NumberNote">Đơn vị</label>
+                    <input type="text" id="NumberNote" class="form-control" name="NumberNote" readonly autofocus>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Quantity">Số lượng</label>
+                    <input type="number" id="Quantity" class="form-control" name="Quantity" min="0">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Price">Đơn giá</label>
+                    <input type="number" id="Price" class="form-control" name="Price" min="0">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="ToMoney">Thành tiền</label>
+                    <input type="number" id="ToMoney" class="form-control" name="ToMoney" min="0" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <label for="selectBelonging">Thuộc máy/dây chuyền (Mục đích sử dụng)</label>
+                    <select id="selectBelonging" class="form-control-sm select2 select2-info"
+                            data-dropdown-css-class="select2-info" style="width: 90%;" multiple="multiple"
+                            data-placeholder="Chọn một hoặc nhiều">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+

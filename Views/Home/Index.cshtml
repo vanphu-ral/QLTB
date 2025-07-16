@@ -1,0 +1,403 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "../../Views/Shared/_Admin.cshtml";
+}
+<!-- Main content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label>Chọn xưởng sản xuất</label>
+                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                        class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label>Chọn ngành</label>
+                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                        class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <div class="form-group">
+                <label>Chọn tổ</label>
+                <select placeholder="Chọn tổ" id="selectTeam" name="selectTeam" class="form-control-sm select2 select2-info" multiple="multiple" data-placeholder="Chọn một hoặc nhiều"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 form-group">
+            <label>Chọn thời gian báo cáo</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                </div>
+                <input type="text" class="form-control float-right" id="reservationtime">
+            </div>
+            <!-- /.input group -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <label><span>     </span></label>
+            <button type="button" class="btn btn-block btn-primary" onclick="ClickApply()"><i class="fa-regular fa-eye"></i> APPLY</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number01">150</h4>
+                    <p><span id="spanForh3Number01">Tổng số thiết bị Đang hoạt động</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(1)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number02">150</h4>
+                    <p><span id="spanForh3Number02">Tỉ lệ % thiết bị Đang hoạt động</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(2)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number03">150</h4>
+                    <p><span id="spanForh3Number03">Số thiết bị đã bảo trì/bảo dưỡng so với kế hoạch tháng</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(3)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number04">150</h4>
+                    <p><span id="spanForh3Number04">Số thiết bị đã bảo trì/bảo dưỡng so với kế hoạch năm</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(4)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number05">150</h4>
+                    <p><span id="spanForh3Number05">Tỉ lệ hoàn thành bảo dưỡng thiết bị theo kế hoạch năm</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(5)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number11">150</h4>
+                    <p><span id="spanForh3Number11">Số lần thực hiện bảo trì bảo dưỡng</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(6)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number12">150</h4>
+                    <p><span id="spanForh3Number12">Số thiết bị đã được thực hiện nghiệm thu sữa chữa/bảo dưỡng định kỳ</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(7)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number13">150</h4>
+                    <p><span id="spanForh3Number13">Số thiết bị đến hạn bảo trì</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(8)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number14">150</h4>
+                    <p><span id="spanForh3Number14">Số thiết bị lỗi/hỏng</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(9)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-2">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h4 class="text-left" id="h3Number15">150</h4>
+                    <p><span id="spanForh3Number15">Số biên bản sự cố nghiêm trọng</span></p>
+                </div>
+                <div class="icon">
+                    <i class="ion fa-solid fa-signal"></i>
+                </div>
+                <a onclick="ShowModalInfo(10)" class="small-box-footer">Chi tiết  <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>   
+    @*Biểu đồ *@
+    <div id="div1Chart02" class="card row card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title">
+                <label>
+                    <i class="far fa-chart-bar"></i>
+                    <span id="labelFordataDisplayChart02">Thống kê tình trạng thiết bị</span>
+                </label>
+            </h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @*Biểu đồ dòng 01*@
+            <div class="row">
+                <div class="col-12 col-sm-3 col-md-3">
+                    <div class="card card-primary card-outline bg-chart">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <label>
+                                    <i class="far fa-chart-bar"></i>
+                                    <span id="labelFordataDisplayChartLine01">Thống kê hiện trạng thiết bị của các bộ phận</span>
+                                </label>
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="barChart_01" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                        </div>
+                        <!-- /.card-body-->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <div class="col-12 col-sm-3 col-md-3"">
+                    <div class="card card-primary card-outline bg-chart-none">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <label>
+                                    <i class="far fa-chart-bar"></i>
+                                    <span id="labelFordataDisplayChartLine02">Tình trạng hỏng hóc của các bộ phận</span>
+                                </label>
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="barChart_02" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                        </div>                <!-- /.card-body-->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <div class="col-12 col-sm-3 col-md-3">
+                    <!-- Donut chart -->
+                    <div class="card card-primary card-outline bg-chart">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <label>
+                                <i class="far fa-chart-bar"></i>
+                                    <span id="labelFordonutDisplayChartLine11">Số lần sự cố nghiêm trọng trong các bộ phận</span>  
+                                </label>
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="pieChart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                        </div>
+                        <!-- /.card-body-->
+                    </div>
+                    <!-- /.card Donut chart -->
+                </div>
+                <div class="col-12 col-sm-3 col-md-3">
+                    <div class="card card-primary card-outline bg-chart">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <label>
+                                    <i class="far fa-chart-bar"></i>
+                                    <span id="labelFordataDisplayChartLine12">Thống kê tình trạng theo tháng</span>
+                                </label>
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="barChart_11" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                        </div>                <!-- /.card-body-->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body-->
+    </div>
+    <!-- /.card -->
+    @*2 bảng biểu dòng 03*@
+    <div id="divTableView03" class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <div class="card card-info card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <label>
+                            <i class="far fa-chart-bar"></i>
+                            <span id="labelFortableView31">Danh sách các thiết bị đến hạn bảo trì/bảo dưỡng</span>
+                        </label>
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="tableView31" class="table table-bordered table-hover"></table>
+                </div>
+                <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <div class="card card-info card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <label>
+                            <i class="far fa-chart-bar"></i>
+                            <span id="labelFortableView32">Danh sách các thiết bị đã thực hiện bảo trì/bảo dưỡng</span>
+                        </label>
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="tableView32" class="table table-bordered table-hover"></table>
+                </div>
+                <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<div class="modal fade" id="modal-chitiet-home" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-home"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="viewhome-table" class="table table-bordered table-hover">
+                </table>
+            </div>
+            <div class="modal-footer justify-content-between" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- /.content -->
+@section Scripts{
+  @*  <script language="javascript" type="text/javascript" src="../../plugins/flot/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="../../plugins/flot/plugins/jquery.flot.resize.js"></script>
+    <script language="javascript" type="text/javascript" src="../../plugins/flot/plugins/jquery.flot.pie.js"></script>
+    <script language="javascript" type="text/javascript" src="../../plugins/flot/plugins/jquery.flot.time.js"></script>
+    <script language="javascript" type="text/javascript" src="../../plugins/flot/plugins/jquery.flot.axislabels.js"></script>
+    <script language="javascript" type="text/javascript" src="../../plugins/flot/plugins/jquery.flot.legend.js"></script>
+    <script language="javascript" type="text/javascript" src="../../plugins/flot/plugins/jquery.flot.symbol.js"></script>*@
+    <!-- ChartJS -->
+    <script src="../../plugins/chart.js/Chart.min.js"></script>
+    <script src="../../plugins/chart.js/Chart.bundle.js"></script>
+    <script src="../../plugins/chart.js/Chart.PieceLabel.min.js"></script>
+
+    @*<script src="../../plugins/chart.js/chartjs-plugin-datalabels.js"></script>*@
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/view.home.js', function () {
+                        $(document).ready(function () {
+                            InnitPageHome(0);
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}

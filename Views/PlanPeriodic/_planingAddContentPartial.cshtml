@@ -1,0 +1,75 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-body">
+        <div class="form-group">
+            <p>Đơn vị:<span id="spanEditContentDonvi"></span></p>
+            <p>Thiết bị:<span id="spanEditContentDeviceName"></span></p>
+            <p><span id="spanEditContentYear">2022</span></p>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-info card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><b><a>Thêm mới nội dung sửa chữa bảo dưỡng thiết bị</a></b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="WorkContent">Nội dung sửa chữa, bảo dưỡng</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="WorkContent"
+                                name="WorkContent"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="DepartmentAct">Tháng thực hiện</label>
+                            <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 80%;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="form-group">
+                            <label for="DepartmentAct">Bộ phận thực hiện</label>
+                            <input type="text" id="DepartmentAct" name="DepartmentAct" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="selectForm">Hưỡng dẫn, Quy trình (nếu có)</label>
+                            <select placeholder="Chọn file" id="selectForm" name="selectForm"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Note">Ghi chú</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="Note"
+                                name="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>

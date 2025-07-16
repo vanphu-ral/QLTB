@@ -1,0 +1,263 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Css{
+
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Supplie.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Supplie.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Supplie.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <table id="manager_table_list" class="table table-bordered table-hover">
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+
+<div class="modal fade" id="modal-thietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-thietbi"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Name">Nhóm vật tư, phụ tùng</label>
+                            <select placeholder="Chọn nhóm" id="selectGroupSupplie" name="selectGroupSupplie" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 90%;" onchange="seGroupId = parseInt(this.value);">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Name">Tên vật tư, phụ tùng</label>
+                            <input type="text" id="Name" class="form-control" name="Name" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="Code">Mã SAP</label>
+                            <input type="text" id="Code" class="form-control" name="Code" autofocus>
+                        </div>
+                            <div class="form-group">
+                                <label for="Origin">Xuất xứ</label>
+                                <input type="text" id="Origin" class="form-control" name="Origin" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="Unit">Đơn vị</label>
+                                <input type="text" id="Unit" class="form-control" name="Unit" autofocus>
+                            </div>
+                    </div>                  
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="QRCode">QR CODE</label>
+                                <input type="text" id="QRCode" class="form-control" name="QRCode" autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group" style="clear:both;">
+                            <div class="form-group">
+                                <label for="labelQRCodeImg" id="labelQRCodeImg">Chọn Ảnh</label>
+                                <div class="custom-file" style="width:50%;">
+                                    <input type="file" class="custom-file-input" id="inputQRCodeImg" name="inputQRCodeImg">
+                                    <label class="custom-file-label" id="QRCodeImg" for="inputQRCodeImg"></label>
+                                </div>
+                                <button type="button" class="btn btn-default" id="btn-img-reset"><span aria-hidden="true">×</span>&nbsp;Xóa ảnh</button>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <img id="imgEditQRCodeImg" style="width: auto !important; max-height:130px; margin-top: -10px;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Description">Mô tả</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="Description" name="Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Clear()"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveSupplie()"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-delete-thietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-thietbi">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <p>Bạn có chắc muốn xóa dữ liệu này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteSupplie()"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-delete-file">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-file">Xóa file</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="UrlFile" value="" id="UrlFile" />
+                <p>Bạn có chắc muốn xóa file này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteFile('Supplie')"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- /.modal -->
+<div class="modal fade" id="modal-upload-filescan" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-upload-filescan">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="exampleInputFile">Chọn file</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" name="exampleInputFile">
+                                <label class="custom-file-label" id="labelexampleInputFile" for="exampleInputFile"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveUploadFile()"><i class="fa-solid fa-trash-can"></i>&nbsp;Upload File</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-show-file">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-PDF">Nội dung chính:</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="UrlFile" value="" id="UrlFile" />
+                <div class='embed-responsive' style='padding-bottom:90%'>
+                    <embed id="idEmbedPDF" type="application/pdf" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/list.supplie.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('Supplie');
+                        });
+                    });
+                });
+            });
+        });</script>
+}
+
+

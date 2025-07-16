@@ -1,0 +1,233 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="card card-purple">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="card-title "><b>Biên bản nghiệm thu</b></h3>
+            </div>
+            <div class="card-body">
+                <table id="nghemthu-details-table" class="table table-bordered table-hover">
+                    <tr>
+                        <td><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></td>
+                        <td colspan="2" style="text-align:center;">
+                            <b>BIÊN BẢN NGHIỆM THU THIẾT BỊ</b>
+                        </td>
+                        <td>
+                            Số: <span id="spanBienBanPlanNumber">LED.LED2.BBNTTB.4</span>
+                            <br />Ngày: <span id="spanBienBanNgayBB"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Đợn vị thực hiện: <span id="spanBienBanDepartmentAct">LED2, TBCD</span></td>
+                        <td>Tên thiết bị: <span id="spanBienBanDeviceName">LED2, TBCD</span></td>
+                    </tr>
+                    <tr>
+                        <td>Bộ phận quản lý/sử dụng thiết bị: <span id="spanBienBanTeamName">Tô lắp đặt TB</span> </td>
+                        <td colspan="2">Ngành/Ban: <span id="spanBienBanBranchName">LED2, TBCD</span></td>
+                        <td>Xưởng: <span id="spanBienBanFactoryName">LED</span></td>
+                    </tr>
+                    <tr>
+                        <td>Giao nhận sau: </td>
+                        <td colspan="3">
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input value="1" type="radio" id="rdtimeDelivery1" name="rdtimeDelivery">
+                                    <label for="rdtimeDelivery1">Sửa chữa</label>`
+                                </div>
+
+                                <div class="icheck-primary d-inline">
+                                    <input value="2" type="radio" id="rdtimeDelivery2" name="rdtimeDelivery">
+                                    <label for="rdtimeDelivery2">Bảo dưỡng định kỳ</label>
+                                </div>
+
+                                <div class="icheck-primary d-inline">
+                                    <input value="3" type="radio" id="rdtimeDelivery3" name="rdtimeDelivery">
+                                    <label for="rdtimeDelivery3">Khác</label>
+                                </div>
+
+                                <div class="icheck-primary d-inline" style="display:none;">
+                                    <input value="0" type="radio" id="rdtimeDelivery0" name="rdtimeDelivery" style="display:none;">
+                                    <label for="rdtimeDelivery0"></label>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="form-group">
+                                <label for="rangeActDatetimeStop">Thời gian thực hiện nghiệm thu (Thời gian bắt đầu: Ngày giờ ... - Thời gian hoàn thành: Ngày giờ...):</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                    </div>
+                                    <!-- TimeStopBegin-TimeStopEnd -->
+                                    <input type="text" class="form-control float-right" id="rangeActDatetimeStop">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="form-group">
+                                <label for="rangeDatetimeStop">Thời gian thực hiện bảo dưỡng (Từ ngày: giờ ... đến ngày: giờ...):</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                    </div>
+                                    <!-- TimeStopBegin-TimeStopEnd -->
+                                    <input type="text" class="form-control float-right" id="rangeDatetimeStop">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            - Nội dung công việc thực hiện:
+                            <div id="divBienBanWorkContent">LED</div>
+                            - Thực hiện bảo dưỡng theo kế hoạch số: <span id="spanBBPlanNumber_2">LED.LED2.BBNTTB.4</span><br />
+                            - Công việc phát sinh:
+                            <div>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="WorkArising"
+                                          name="WorkArising"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" rowspan="3">
+                            <b>Kết quả vận hành thử:</b>
+                            <div>
+                                <textarea class="form-control" rows="7" placeholder="Enter ..." id="OperatingResults"
+                                          name="OperatingResults"></textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <b>
+                                Yêu cầu về an toàn
+                            </b>
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" value="1" id="rAntoan1" name="rAntoan" checked="">
+                                    <label for="rAntoan1">
+                                        Đạt
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" value="2" id="rAntoan2" name="rAntoan">
+                                    <label for="rAntoan2">
+                                        Không đạt
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline" style="display:none;">
+                                    <input type="radio" value="0" id="rAntoan0" name="rAntoan" style="display:none;">
+                                    <label for="rAntoan0" style="display:none;">
+                                        Không đánh giá
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+                                Yêu cầu về chất lượng
+                            </b>
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input value="1" type="radio" id="rChatluong1" name="rChatluong" checked="">
+                                    <label for="rChatluong1">
+                                        Đạt
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input value="2" type="radio" id="rChatluong2" name="rChatluong">
+                                    <label for="rChatluong2">
+                                        Không đạt
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline" style="display:none;">
+                                    <input type="radio" value="0" id="rChatluong0" name="rChatluong" style="display:none;">
+                                    <label for="rChatluong0" style="display:none;">
+                                        Không đánh giá
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+                                Yêu cầu về năng suất
+                            </b>
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" value="1" id="rNangsuat1" name="rNangsuat" checked="">
+                                    <label for="rNangsuat1">
+                                        Đạt
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" value="2" id="rNangsuat2" name="rNangsuat">
+                                    <label for="rNangsuat2">
+                                        Không đạt
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline" style="display:none;">
+                                    <input type="radio" value="0" id="rNangsuat0" name="rNangsuat" style="display:none;">
+                                    <label for="rNangsuat0" style="display:none;">
+                                        Không đánh giá
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><b>Hành động phải thực hiện thêm</b></td>
+                        <td><b>Trách nhiệm</b></td>
+                        <td><b>Thời hạn</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="ActionMore"
+                                          name="ActionMore"></textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="divBienBanResponsibility">
+                                <textarea class="form-control" rows="3"
+                                          placeholder="Enter ..." id="Responsibility" name="Responsibility"></textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="divBienBanDuration">
+                                <textarea class="form-control" rows="3" placeholder="Enter ..."
+                                          id="Duration" name="Duration"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height:200px; text-align:center; vertical-align:text-top; font-weight:bold;">
+                        <td style="text-align:center;" id="tdPlanCreatereport">
+                        </td>
+                        <td style="text-align:center;" >Bộ phận QL/SD thiết bị
+                        </td>
+                        <td style="text-align:center;" >Trưởng đơn vị
+                        </td>
+                        <td style="text-align:center;" >Tổng giám đốc (nếu cần)
+                        </td>
+                        @* <td style="text-align:center;" id="idBranchreport"> *@
+                        @* </td> *@
+                        @* <td style="text-align:center;" id="tdFactoryreport"> *@
+                        @* </td> *@
+                        @* <td style="text-align:center;" id="tdAuthorityreport"> *@
+                        @* </td> *@
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->

@@ -1,0 +1,130 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-body">
+        <div class="form-group">
+            <p>Đơn vị:<span id="spanEditDonvi"></span></p>
+            <p>Thiết bị:<span id="spanEditDeviceName"></span></p>
+            <p><span id="spanEditMonth">4</span>/ <span id="spanEditYear">2022</span></p>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-info card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><b><a>Hạng mục chính</a> (Nhập thông tin hạng mục chính)</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="TestMethod">Cách thức kiểm tra</label>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" name="TestMethod" id="ckTestMethod_1">
+                                <label for="ckTestMethod_1">
+                                    Đầu giờ
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" name="TestMethod" id="ckTestMethod_2">
+                                <label for="ckTestMethod_2">
+                                    Cuối giờ
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" name="TestMethod" id="ckTestMethod_3">
+                                <label for="ckTestMethod_3">
+                                    Hàng tuần
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group float-right">
+                            <div class="form-group">
+                                <div class="icheck-success d-inline">
+                                    <input type="checkbox" id="ckIsEnable">
+                                    <label for="ckIsEnable">
+                                        Cho phép hiển thị
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="UserAction">Người thực hiện</label>
+                            <input type="text" id="UserAction" class="form-control" name="UserAction" autofocus>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="TestStatus">Trạng thái kiểm tra</label>
+                    <div class="icheck-success d-inline">
+                        <input type="radio" name="TestStatus" id="ckTestStatus_1">
+                        <label for="ckTestStatus_1">
+                            ok
+                        </label>
+                    </div>
+                    <div class="icheck-success d-inline">
+                        <input type="radio" name="TestStatus" id="ckTestStatus_2">
+                        <label for="ckTestStatus_2">
+                            Đã điều chỉnh
+                        </label>
+                    </div>
+                    <div class="icheck-success d-inline">
+                        <input type="radio" name="TestStatus" id="ckTestStatus_3">
+                        <label for="ckTestStatus_3">
+                            Có bất thường
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="MainCategory">Hạng mục chính</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="MainCategory" name="MainCategory"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="ContentAct">Nội dung thực hiện</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="ContentAct" name="ContentAct"></textarea>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="UserAct">Người thực hiện</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter ..." id="UserAct" name="UserAct"></textarea>
+                </div>
+            </div>
+        </div>*@
+            </div>
+            <!-- /.card-body -->
+            @* <div class="card-footer">
+                <a class="btn btn-primary btn-sm" onclick="SavePlanDailyMeasurement();">Lưu thông tin hạng mục kiểm tra</a>
+            </div> *@
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+

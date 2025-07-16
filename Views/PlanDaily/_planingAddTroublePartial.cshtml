@@ -1,0 +1,221 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-body">
+        <div class="form-group">
+            <p>Đơn vị:<span id="spanEditTroubleDonvi"></span></p>
+            <p>Thiết bị:<span id="spanEditTroubleDeviceName"></span></p>
+            <p><span id="spanEditTroubleMonth">4</span>/ <span id="spanEditTroubleYear">2022</span></p>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="row" id="divlineCheckContent">
+    <div class="col-12">
+        <div class="card card-info card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <b><a>Sự cố, bất thường mới</a> (Ghi chép khi có sự cố, bất thường)</b>
+                </h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="TroubleContent">Mô tả hỏng hóc</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="TroubleContent"
+                                      name="TroubleContent"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="selectComponent">Các thành phần bị hỏng/bị ảnh hưởng</label>
+                            <select id="selectComponent" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 100%;" multiple="multiple"
+                                    data-placeholder="Chọn một hoặc nhiều thành phần">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="selectDay">Ngày sự cố:</label>
+                            <select placeholder="Chọn ngày" id="selectDay" name="selectDay" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 80%;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="ContentAndResult">Nội dung và kết quả xử lý</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="ContentAndResult"
+                                      name="ContentAndResult"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="selectDayCheck">Ngày kiểm tra:</label>
+                            <select placeholder="Chọn ngày" id="selectDayCheck" name="selectDayCheck" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 80%;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Conclusion">Kết luận</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="Conclusion"
+                                      name="Conclusion"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="row" id="divlineRepairContent">
+    <div class="col-12">
+        <div class="card card-info card-outline collapsed-card">
+            <div class="card-header">
+                <h3 class="card-title"><b><a>Chi tiết kiểm tra</a> (Nội dung bảo dưỡng, sửa chữa thiết bị)</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="rangeDatetimeStop">Thời gian dừng máy (Từ ... đến ...):</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                </div>
+                                <!-- TimeStopBegin-TimeStopEnd -->
+                                <input type="text" class="form-control float-right" id="rangeDatetimeStop">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="LocationDetai">Cụm chi tiết</label>
+                            <input type="text" id="LocationDetai" class="form-control" name="LocationDetai">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="RepairContent">Nội dung sửa chữa</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="RepairContent"
+                                      name="RepairContent"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="selectRepairUser">Người sửa chữa</label>
+                            <select id="selectRepairUser" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 90%;" multiple="multiple"
+                                    data-placeholder="Chọn một hoặc nhiều người thực hiện" style="width: 100%;">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-12">
+                    <div class="form-group">
+                               <label for="Repair">Ghi chú</label>
+                               <textarea class="form-control" rows="3" placeholder="Enter ..." id="Repair" name="Conclusion"></textarea>
+                           </div>
+                    </div>
+                </div> -->
+                <!-- Repair -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Note">Ghi chú</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." id="Note"
+                                      name="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+<div class="row" id="divlineSupplieContent">
+    <div class="col-12">
+        <div class="card card-info card-outline collapsed-card">
+            <div class="card-header">
+                <h3 class="card-title"><b>Vật tư sử dụng</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="trouble-supplie-table" class="table table-bordered table-hover">
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer card-outline">
+                <div id="divAddSupplie" style="width:100%; display:none;">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn vật tư" id="selectSupplie" name="selectSupplie"
+                                        class="form-control-sm select2 select2-info" data-dropdown-css-class="select2-info"
+                                        style="width: 99%;"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group"><input type="number" min="0" id="Quantity" class="form-control" name="Quantity"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group"><input type="number" min="0" id="Price" class="form-control" name="Price"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group"><input type="number" min="0" id="ToMoney" class="form-control" name="ToMoney"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" style="text-align:center;">
+                            <button type="button" class="btn btn-danger" onclick="ClearFooterTableSupplie()">
+                                Delete
+                            </button>
+                            <button type="button" class="btn btn-outline-info" onclick="SavePlanDailyTroubleSupplie()">
+                                <i class="far fa-save"></i>&nbsp;Lưu Vật tư
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>

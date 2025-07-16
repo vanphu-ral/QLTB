@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3" id="divBox1">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1" id="icon-box1"><i class="fa-solid fa-signal"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber1">CPU Traffic</span>
+                    <span class="info-box-number" id="h3Number1">
+                    </span>
+                    <a onclick="ShowModalInfo(1)" class="small-box-footer"><span id="spanNumber1"></span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox2">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1" id="icon-box2"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber2">Likes</span>
+                    <span class="info-box-number" id="h3Number2">41,410</span>
+                    <a onclick="ShowModalInfo(2)" class="small-box-footer float-md-right"><span id="spanNumber2"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3" id="divBox3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1" id="icon-box3"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber3">Sales</span>
+                    <span class="info-box-number" id="h3Number3">760</span>
+                    <a onclick="ShowModalInfo(3)" class="small-box-footer float-md-right"><span id="spanNumber3"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox4">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1" id="icon-box4"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber4">New Members</span>
+                    <span class="info-box-number" id="h3Number4">2,000</span>
+                    <a onclick="ShowModalInfo(4)" class="small-box-footer"><span id="spanNumber4"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" id="divMainInformation">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="content-table" class="table table-bordered table-hover" style="width: 100%">
+                                <thead>                                    
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <p><span>RĐ.QT15.BM02a. Ban hành lần 2</span></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+<div class="modal fade" id="modal-chitiet-home" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-home"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_detailViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@section Scripts{
+    <script>
+        loadScript('../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../MledIdentity/lib/js/page/report.report.infor.js', function () {
+                        loadScript('../MledIdentity/lib/js/page/report.report3.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('Report1');
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+

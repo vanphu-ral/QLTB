@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityUser>
+@{ ViewData["Title"] = "Index";
+
+    Layout = "~/Views/Shared/_Admin.cshtml"; }
+
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title "><b>Quản lý phòng ban/đơn vị</b></h3>
+        <a class="ml-auto btn btn-success" title="Manage" href="/MledIdentity/Account/Manage/CreateUser">
+            Đăng
+            ký
+        </a>  @*dentity/Account/Register?returnUrl=%2F <button type="button" class="ml-auto btn
+        btn-success" onclick="ShowModal(-1)">Thêm</button>}*@
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <table class="table table-striped" id="userTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Tên đăng nhập
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Số điện thoại
+                                </th>
+                                <th style="width:20%">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model)
+
+                            {
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a>
+                                    @user.UserName
+                                </a>
+                                <br>
+                                <small>
+                                    @user.Id
+                                </small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a>
+                            @user.Email
+                        </a>
+                    </td>
+                    <td>
+                        <a>
+                            @user.PhoneNumber
+                        </a>
+                    </td>
+                    <td>
+        <a class="btn btn-primary" asp-controller="userroles" asp-action="Index"
+           asp-route-userId="@user.Id">
+            <i class="fas fa-wrench"></i> Phân nhóm
+        </a>
+
+        <button class="btn btn-danger" onclick="ShowDeleteModal('@user.Id')">
+            <i class="fas fa-trash-alt"></i>Xóa
+        </button>
+                    </td>
+                </tr>
+}
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div> <!-- /.container-fluid -->
+
+<div class="modal fade" id="modal-delete-record" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-record">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <p>Bạn có chắc muốn xóa dữ liệu này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteDepartment()"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/identity.users.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('User');
+                        });
+                    });
+                });
+            });
+        });</script>
+}

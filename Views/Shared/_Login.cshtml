@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] -PHẦN MỀM QUẢN LÝ TÀI SẢN THIẾT BỊ</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/googleapis.font.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="icon" type="image/png" href="https://rangdong.com.vn/favicon.png">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+<body>
+    <div class="container px-1 px-md-5 px-lg-1 px-xl-5 mx-auto">
+        <div class="card card0 border-0">
+            <div class="row d-flex">
+                <div class="col-lg-6">
+                    <div class="card1 pb-5">
+                        <div class="row"> <img src="~/imgs/logo.png" class="logo"> </div>
+                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line"> <img src="https://i.imgur.com/uNGdWHi.png" class="image"> </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card2 card border-0 px-4 py-5">
+                        <div class="row mb-4 px-3">
+                            <h6 class="mb-0 mr-4 mt-2 titlepage">PHẦN MỀM QUẢN LÝ TÀI SẢN THIẾT BỊ</h6>
+                        </div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+            <div class="bg-blue py-4">
+                <div class="row px-3">
+                    <small class="ml-4 ml-sm-5">
+                        <b>Công ty Cổ phần Bóng đèn Phích nước Rạng Đông</b><br />
+                        Điện thoại: (024) 3 858 4310    Fax: (024) 3858 5038<br />
+                        Địa chỉ: Số 87-89, Phố Hạ Đình, Phường Thanh Xuân Trung, Quận Thanh Xuân, Hà Nội
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*toastr*@
+    <script src="~/plugins/toastr/toastr.min.js"></script>
+    <script type='text/javascript'>
+        function loadStyle(url, callback) {
+            // Adding the link tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = url;
+            link.media = 'all';
+            // Then bind the event to the callback function.
+            // There are several events for cross browser compatibility.
+            link.onreadystatechange = callback;
+            link.onload = callback;
+            // Fire the loading
+            head.appendChild(link);
+        }
+
+        function loadScript(url, callback) {
+            // Adding the script tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            //script.async = false;
+            script.src = url;
+            // Then bind the event to the callback function.
+            // There are several events for cross browser compatibility.
+            script.onreadystatechange = callback;
+            script.onload = callback;
+            // Fire the loading
+            head.appendChild(script);
+        }
+    </script>
+
+    @RenderSection("Scripts", required: false)
+    <script>
+        function login() {
+            $('.boxlogin').fadeIn()
+            $('.boxregister').hide()
+            $('.boxforgotpass').hide()
+        }
+        function register() {
+            $('.boxlogin').hide()
+            $('.boxregister').fadeIn()
+        }
+        function forgotpass() {
+            $('.boxlogin').hide()
+            $('.boxforgotpass').fadeIn()
+        }
+    </script>
+</body>
+</html>

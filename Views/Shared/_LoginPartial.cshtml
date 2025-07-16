@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{@*<li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+                        <li class="nav-item">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                            </form>
+                        </li>*@
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <img style="width: 45px; height: 45px;margin-top: -10px;" class="profile-user-img img-responsive img-circle" src="~/dist/img/avatardefault.png">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">@User.Identity.Name</span>
+                        <div class="dropdown-divider"></div>
+                        <a asp-area="" asp-controller="UserActive" asp-action="Index" class="dropdown-item">
+                            <center>
+                                <i class="fa fa-history text-info"></i>&nbsp;&nbsp;&nbsp;&nbsp; Lịch sử hoạt động
+                                <span class="float-right text-muted text-sm"></span>
+                            </center>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                            <center>
+                                <i class="fa fa-info-circle text-info"></i>&nbsp;&nbsp;&nbsp;&nbsp; Hồ sơ cá nhân
+                                <span class="float-right text-muted text-sm"></span>
+                            </center>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <div>
+                            <form style="width:100%" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link text-dark" style="width:100%">
+                                    <center><i class="fas fa-power-off text-danger"></i>&nbsp;&nbsp;&nbsp;&nbsp; Đăng xuất</center>
+                                </button>
+                                <span class="float-right text-muted text-sm"></span>
+                            </form>
+                        </div>
+                    </div>
+                </li> }
+            else
+            {
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+</li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>}
+@*<li class="nav-item">
+    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i class="fas fa-th-large"></i></a>
+</li>*@

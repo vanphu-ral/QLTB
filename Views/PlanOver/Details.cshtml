@@ -1,0 +1,272 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanOver.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanOver.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanOver.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" id="divMainInformation">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div id="divSelectPlan" style="display:block;">
+                                <select placeholder="Chọn kế hoạch" id="selectPlanOver" name="selectPlanOver" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 99%;">
+                                </select>
+                                </div>
+                                <button id="btCreatePlanNew" style="display:none;" class="btn btn-secondary btn-success buttons-html5" tabindex="0" aria-controls="manager_table_list" type="button" onclick="CreateNewPlan()"><span>Thêm mới kế hoạch</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="scl_daitu-details-table" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></th>
+                                <th colspan="5" style="text-align:center;">
+                                    <b> KẾ HOẠCH SỬA CHỮA LỚN, ĐẠI TU, CẢI TẠO THIẾT BỊ</b>
+                                    <p><center><span id="SpanPlanYear"></span></center></p>
+                                </th>
+                                <th colspan="2">
+                                    <p>Đơn vị: <span id="SpanPlanDonVi"></span></p>
+                                    <p>Số: <span id="SpanPlanOverNumber"></span><span id="SpanDieuChinh"></span></p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Mục tiêu:</th>
+                                <th colspan="7">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="PlanOverTargets"
+                                                          name="PlanOverTargets"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thiết bị/Dây chuyền</th>
+                                <th>Hiện trạng/Yêu cầu</th>
+                                <th>Nội dung sửa chữa</th>
+                                <th>Mục tiêu đạt được</th>
+                                <th>Tiến độ</th>
+                                <th>Người chủ trì</th>
+                                <th>Người thực hiện</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="text-align:center;" id="tdPlanCreate">
+                                </td>
+                                <td colspan="2" style="text-align:center;" >Trưởng ngành
+                                </td>
+                                <td colspan="2" style="text-align:center;" >Quản đốc xưởng
+                                </td>
+                                <td colspan="2" style="text-align:center;" >TGĐ/Người được ủy quyền
+                                </td>
+                                @* <td colspan="2" style="text-align:center;" id="idBranch"> *@
+                                @* </td> *@
+                                @* <td colspan="2" style="text-align:center;" id="tdFactory"> *@
+                                @* </td> *@
+                                @* <td colspan="2" style="text-align:center;" id="tdAuthority"> *@
+                                @* </td> *@
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p><span>(*) Ghi chú: Các đơn vị có thể bổ sung tùy theo đặc điểm từng máy móc công nghệ.</span></p>
+                    <p><span>RĐ.QT15.BM04c. Ban hành lần 1</span></p>
+                </div>
+                <!-- /.card-body -->
+                @*<div class="card_footer">
+                        <button type="button" class="ml-auto btn btn-success" onclick="ShowModal(-2)">Thêm hạng mục sửa chữa mới</button>
+                    </div>*@
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal_chitiet-scl_daitu" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-scl_daitu"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal_add-scbdthietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-scbdthietbi"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="UpdatePlanOverDevice()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-CreateToAdjust" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo bản điều chỉnh kế hoạch</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style=" text-decoration-style:initial;" id="pViewthongbao_2"><i class="fa-solid fa-question text-warning"></i>
+                    &nbsp;&nbsp;Bạn có chắc chắn muốn tạo bản điểu chỉnh cho hồ sơ này?</p>
+                <p> (Sau khi tạo bản điều chỉnh, Hồ sơ hiện tại sẽ được lưu trong dữ liệu hồ sơ, người dùng không thể thay đổi thông tin của hồ sơ cũ nữa.)</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="ActCreateToAdjust()">
+                    <i class="far fa-save"></i>&nbsp;Tạo bản điều chỉnh
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal-CreateNewPlan" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo mới kế hoạch</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style=" text-decoration-style:initial;" id="pViewthongbao_1">
+                    <i class="fa-solid fa-question text-warning"></i>
+                         &nbsp;&nbsp;Bạn có chắc chắn muốn tạo kế hoạch sửa chữa lớn mới cho năm ?<span id="spancreatepalYear"></span></p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="ActCreateNewPlan()" id="btActCreated">
+                    <i class="far fa-save"></i>&nbsp;Thêm mới kế hoạch
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script>
+        loadScript('../../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../../MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('../../MledIdentity/lib/js/page/plan.over.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('PlanOver');
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}
+
+

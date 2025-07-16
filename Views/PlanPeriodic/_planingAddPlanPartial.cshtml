@@ -1,0 +1,151 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-header">
+        <h3 class="card-title"><b><a>Chọn thiết bị/dây chuyền</a> (Chọn thiết bị/dây chuyền được bảo dưỡng)</b></h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <p>Đơn vị:<span id="spanEditDonvi"></span></p>
+                    <p><span id="spanEditYear">2022</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group" id="divAddThietBi" style="display:block;">
+                    <label for="selectAddDevice">Thiết bị</label>:
+                    <select placeholder="Chọn thiết bị" id="selectAddDevice" name="selectAddDevice"
+                        class="form-control-sm select2 select2-info text-infor" data-dropdown-css-class="select2-info"
+                        style="width: 90%;" onchange="seAddDeviceId = parseInt(this.value);">
+                    </select>
+                </div>
+                <div class="form-group" id="divLableThietBi" style="display:none;">
+                    Thiết bị:<span id="spanEditThietBi"></span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div id="spanGhiChuThietbi" class="text-orange"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer" id="divFooterThietbi" style="display:block;">
+        <a class="btn btn-primary btn-sm" onclick="SaveNewPlanDevice();">Đồng ý</a>
+    </div>
+</div>
+<!-- /.card -->
+
+<div class="card card-info card-outline" id="divlineContentTable" style="display:none;">
+    <div class="card-header">
+        <h3 class="card-title"><b><a>Thời gian thực hiện bảo dưỡng</a></b></h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12"><span id="spanGoiYPlan"></span></div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="form-group clearfix">
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month01">
+                            <label for="plan_Month01">
+                                Tháng 1
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month02">
+                            <label for="plan_Month02">
+                                Tháng 2
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month03">
+                            <label for="plan_Month03">
+                                Tháng 3
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month04">
+                            <label for="plan_Month04">
+                                Tháng 4
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month05">
+                            <label for="plan_Month05">
+                                Tháng 5
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month06">
+                            <label for="plan_Month06">
+                                Tháng 6
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month07">
+                            <label for="plan_Month07">
+                                Tháng 7
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month08">
+                            <label for="plan_Month08">
+                                Tháng 8
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month09">
+                            <label for="plan_Month09">
+                                Tháng 9
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month10">
+                            <label for="plan_Month10">
+                                Tháng 10
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month11">
+                            <label for="plan_Month11">
+                                Tháng 11
+                            </label>
+                        </div>
+                        <div class="icheck-success d-inline">
+                            <input type="checkbox" id="plan_Month12">
+                            <label for="plan_Month12">
+                                Tháng 12
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="NotePlan">Ghi chú</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter ..." id="NotePlan"
+                              name="NotePlan"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+

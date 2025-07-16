@@ -1,0 +1,378 @@
+﻿@{ ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Admin.cshtml"; }
+
+<!-- Main content -->
+<div class="container-fluid">
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3" id="divBox1">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1" id="icon-box1"><i class="fa-solid fa-signal"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber1">CPU Traffic</span>
+                    <span class="info-box-number" id="h3Number1">
+                    </span>
+                    <a onclick="ShowModalInfo(1)" class="small-box-footer"><span id="spanNumber1"></span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox2">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1" id="icon-box2"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber2">Likes</span>
+                    <span class="info-box-number" id="h3Number2">41,410</span>
+                    <a onclick="ShowModalInfo(2)" class="small-box-footer float-md-right"><span id="spanNumber2"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3" id="divBox3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1" id="icon-box3"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber3">Sales</span>
+                    <span class="info-box-number" id="h3Number3">760</span>
+                    <a onclick="ShowModalInfo(3)" class="small-box-footer float-md-right"><span id="spanNumber3"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox4">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1" id="icon-box4"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber4">New Members</span>
+                    <span class="info-box-number" id="h3Number4">2,000</span>
+                    <a onclick="ShowModalInfo(4)" class="small-box-footer"><span id="spanNumber4"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    @*box-thống kê*@
+
+    <div id="div1Chart" class="row" style="display: none;">
+        <!-- /.row -->
+        <div class="row form-group">
+            <div class="col-md-7">
+                <!-- Line chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <label>
+                                <i class="far fa-chart-bar"></i>
+                                Biểu đồ thời số lần dừng máy theo từng tháng trong năm và bình quân 12 tháng năm trước. (Thêm đường giới hạn về mục tiêu thời gian dừng máy/tháng)
+                            </label>
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="dataDisplay" style="height: 300px;"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-5">
+                <!-- Donut chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <label>
+                                <i class="far fa-chart-bar"></i>
+                                Chi tiết từng ngành (%) và số lần dừng máy của từng ngành trong tổng xưởng (lũy kế)
+                            </label>
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="donut-chart" style="height: 300px;"></div>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row form-group">
+            <div class="col-md-7">
+                <!-- Line chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <label>
+                                <i class="far fa-chart-bar"></i>
+                                Biểu đồ thời gian dừng máy theo từng tháng trong năm và bình quân 12 tháng của năm trước. (Thêm đường giới hạn về mục tiêu thời gian dừng máy/tháng)
+                            </label>
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @*<div id="line-chart" style="height: 300px;"></div>*@
+                        <canvas id="dataDisplayTimeStop" style="height: 300px;"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-5">
+                <!-- Donut chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <label>
+                                <i class="far fa-chart-bar"></i>
+                                Chi tiết từng ngành (%) và thời gian dừng máy của từng ngành trong tổng xưởng (lũy kế)
+                            </label>
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="donut-chart-TimeStop" style="height: 300px;"></div>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row form-group">
+            <div class="col-md-7">
+                <!-- Line chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <label>
+                                <i class="far fa-chart-bar"></i>
+                                Biểu đồ số thiết bị không đạt thông số hàng tháng và tổng thời gian không đạt.
+                            </label>
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @*<div id="line-chart" style="height: 300px;"></div>*@
+                        <canvas id="dataDisplayNoneDevide" style="height: 300px;"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-5">
+                <!-- Donut chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <label>
+                                <i class="far fa-chart-bar"></i>
+                                Chi tiết từng ngành (%) và thời gian thiết bị không đạt của từng ngành (lũy kế)
+                            </label>
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="donut-chart-NoneDevide" style="height: 300px;"></div>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- /.container-fluid -->
+    </div>
+
+    <div id="div3Chart" class="row" style="display: none;">
+        <div class="row form-group">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                            class="form-control-sm select2 select2-info"
+                            data-dropdown-css-class="select2-info" style="width: 90%;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                            class="form-control-sm select2 select2-info"
+                            data-dropdown-css-class="select2-info" style="width: 90%;">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice"
+                            class="form-control-sm select2 select2-info"
+                            data-dropdown-css-class="select2-info" style="width: 90%;">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.row -->
+        <!-- /.container-fluid -->
+        <div class="row form-group">
+            <div class="col-md-6">
+                <!-- Line chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            Biểu đồ báo cáo số lần xảy ra sự cố lớn - nghiêm trọng
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="dataDisplayUserBranch" style="height: 500px;"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col-md-6">
+                <!-- Line chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            Biểu đồ biểu diễn thời gian dừng máy do sự cố và lũy kế (giờ)
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @*<div id="line-chart" style="height: 300px;"></div>*@
+                        <canvas id="dataDisplayTimeStopUserBranch" style="height: 500px;"></canvas>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-chitiet-home" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-home"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_detailViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+@section Scripts{
+    <script language="javascript" type="text/javascript" src="../plugins/flot/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="../plugins/flot/plugins/jquery.flot.resize.js"></script>
+    <script language="javascript" type="text/javascript" src="../plugins/flot/plugins/jquery.flot.pie.js"></script>
+    <script>
+        loadScript('../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../MledIdentity/lib/js/page/report.report.infor.js', function () {
+                        loadScript('../MledIdentity/lib/js/page/report.report6.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('Report1');
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}

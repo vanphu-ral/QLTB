@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" id="divMainInformation">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                     
+                        <div class="col-2">
+                            <div class="form-group">
+                                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="content-table" class="table table-bordered table-hover" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2"><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></th>
+                                        <th colspan="4" style="text-align:center;">
+                                            <p>SỔ THEO DÕI BẢO DƯỠNG THIẾT BỊ</p>
+                                            <p>(Thiết bị trọng yếu)   <span id="SpanTimeReport"></span></p>
+                                        </th>
+                                        <th colspan="3">
+                                            <p>Đơn vị: <span id="SpanPlanDonVi"></span></p>
+                                            <p>Thiết bị: <span id="SpanPlanThietBi"></span></p>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:4%">STT</th>
+                                        <th style="width:15%">Ngày tháng</th>
+                                        <th style="width:15%">Tên máy</th>
+                                        <th style="width:15%">Cụm chi tiết</th>
+                                        <th style="width:35%">Nội dung sửa chữa/ bảo dưỡng</th>
+                                        <th style="width:15%">Thời gian dừng máy (h)</th>
+                                        <th style="width:15%">Người thực hiện</th>
+                                        <th style="width:15%">Vật tư sử dụng</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <p><span>RĐ.QT15.BM02a. Ban hành lần 2</span></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+@section Scripts{
+    <script>
+        loadScript('../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../MledIdentity/lib/js/page/report.reportImporent.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('Report1');
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+
