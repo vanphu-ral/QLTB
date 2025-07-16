@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@section Css{
+    <link rel="stylesheet" href="~/css/siteapprpve.css">
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanSummary.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanSummary.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanSummary.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+<div class="container-fluid">
+    <div class="row form-group">
+        <div class="col-md-4">
+            <div class="form-group">
+                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">
+            <div class="form-group">
+                <select placeholder="Chọn loại hồ sơ" id="selectPlanType" name="selectPlanType" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                    <option value="0" selected>Chọn loại hồ sơ</option>
+                    <option value="PlanDaily">Kế hoạch hàng ngày hàng tuần</option>
+                    <option value="PlanDailyTroubleReport">Biên bản sự cố nghiêm trọng</option>
+                    <option value="PlanPeriodic">Kế hoạch BDCV định kỳ</option>
+                    <option value="PlanPeriodicDevice">Chi tiết BDCV định kỳ</option>
+                    <option value="PlanPeriodicReport">Biên bản nghiệm thu thiết bị</option>
+                    <option value="PlanOver">Kế hoạch sửa chữa lớn, đại tu thiết bị</option>
+                    <option value="PlanSupplie">Kế hoạch vật tư, phụ tùng</option>
+                    <option value="PlanTarget">Mục tiêu quản lý thiết bị</option>
+                    <option value="DeviceTarget">Kết quả Kết quả thực hiện mục tiêu quản lý thiết bị</option>
+                    <option value="DeviceRepair">Sổ theo dõi sửa chữa bảo dưỡng thiết bị</option>
+                    <option value="Report">Báo cáo</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <select placeholder="Chọn mã số hồ sơ" id="selectPlanNumber" name="selectPlanNumber" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <select placeholder="Chọn lần điều chỉnh" id="selectNumberAju" name="selectNumberAju" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 98%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-warning buttons-pdf buttons-html5" tabindex="0"
+                    aria-controls="table_content" id="btExportPdf" type="button">
+                <span>Lưu file PDF & In</span>
+            </button>
+        </div>
+    </div>
+    <div class="card">
+        <!-- /.card-header -->
+        <div class="card-body" id="divMainInformation">           
+            <div class="embed-responsive row" style="padding-bottom:90%">
+                <iframe id="idiframeHtml" src="prints.html"></iframe>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/plan.summary.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('PlanSummary');
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}

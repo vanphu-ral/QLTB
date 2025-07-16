@@ -1,0 +1,102 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-body">
+        <div class="form-group">
+            <p>Đơn vị:<span id="spanEditDonvi"></span></p>
+            <p><span id="spanEditMonthYear">4</span>/ <span id="spanEditYear">2022</span></p>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-info card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><b><a>Nhập thông tin các hạng mục </a></b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Code">Nội dung</label>
+                            @*<select placeholder="Chọn nội dung" id="selectPlanTarget" name="selectPlanTarget" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 90%;">
+                            </select>*@
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Contents" readonly disabled
+                                      name="Contents"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="divMuctieu" style="display:none;">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Targets">Mục tiêu</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Targets" readonly disabled
+                                      name="Targets"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="ResultAct">Kết quả thực hiện</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="ResultAct"
+                                      name="ResultAct"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Đánh giá: </label>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="Evaluate1" name="Evaluate" value="1">
+                                <label for="Evaluate1">
+                                    Đạt
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" name="Evaluate" id="Evaluate2" value="2">
+                                <label for="Evaluate2">
+                                    Không đạt
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" name="Evaluate" id="Evaluate0" value="0">
+                                <label for="Evaluate0">
+                                    Không đánh giá
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="PlanContent">Kế hoạch tiếp theo</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="PlanContent"
+                                      name="PlanContent"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Note">Ghi chú</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Note"
+                                      name="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>

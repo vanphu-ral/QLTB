@@ -1,0 +1,269 @@
+﻿@{ ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Admin.cshtml"; }
+<!-- Main content -->
+
+<div class="container-fluid">
+    <div class="row form-group">
+        <div class="col-sm-4">
+            <div class="card card-info">
+                <div class="card-header" style="display:none;">
+                    <div class="card-title row">
+                        <h3 class="card-title col-md-5">
+                            <i class="far fa-chart-bar"></i>
+                            Động cơ:
+                        </h3>
+                        <div class="form-group col-md-7">
+                            <select id="selectMotor" name="selectMotor" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 90%;" onchange="seMotorCode = this.value; OnChangeMotor();">
+                                <option value="MOTOR.MT01">MOTOR.MT01</option>
+                                <option value="MOTOR.MT02">MOTOR.MT02</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span id="spanMotorCode"></span>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="card-body-dongco">
+                    <div class="form-group row" style="display:none;">
+                        <label for="MotorTemp" class="col-sm-8 col-form-label">Nhiệt độ (&deg;C)</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="MotorTemp" disabled value="">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <label for="MotorI" class="col-sm-8 col-form-label">Cường độ dòng điện (A)</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="MotorI" disabled value="">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <label for="MotorVibrate" class="col-sm-8 col-form-label">Rung của động cơ (mm/s)</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="MotorVibrate" disabled value="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12" id="divAlertMotor">
+
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="card card-info">
+                <div class="card-header" style="display:none;">
+                    <div class="card-title row">
+                        <h3 class="card-title col-md-5">
+                            <i class="far fa-chart-bar"></i>
+                            Máy luyện:
+                        </h3>
+                        <div class="form-group col-md-7">
+                            <select id="selectTransformer" name="selectTransformer" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 99%;" onchange="seTransformerCode = this.value; OnChangeTransformer();">
+                                <option value="MAYLUYEN.ML01">MAYLUYEN.ML01</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span id="spanTransformerCode"></span>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="card-body-mayluyen">
+                    <div class="form-group row" style="display:none;">
+                        <div class="col-sm-4">
+                            <label class="col-form-label" style="padding-top:42px;">Nhiệt độ vùng luyện (&deg;C)</label>
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label for="TempArea1" class="col-form-label">Vùng 1</label>
+                            <input type="text" class="form-control" id="TempArea1" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label for="TempArea2" class="col-form-label">Vùng 2</label>
+                            <input type="text" class="form-control" id="TempArea2" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label for="TempArea3" class="col-form-label">Vùng 3</label>
+                            <input type="text" class="form-control" id="TempArea3" disabled value="">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <div class="col-sm-4">
+                            <label class="col-form-label" style="padding-top:42px;">Nhiệt độ máy biến áp (&deg;C)</label>
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label class="col-form-label">Biến áp 1</label>
+                            <input type="text" class="form-control" id="TempBa1" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label class="col-form-label">Biến áp 2</label>
+                            <input type="text" class="form-control" id="TempBa2" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label class="col-form-label">Biến áp 3</label>
+                            <input type="text" class="form-control" id="TempBa3" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_TempBa4" class="col-form-label">Biến áp 4</label>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <div class="col-sm-4">
+                            <label class="col-form-label">Cường độ dòng điện máy biến áp (A)</label>
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineIBa1" class="col-form-label">Biến áp 1</label>
+                            <input type="text" class="form-control" id="MachineIBa1" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineIBa2" class="col-form-label">Biến áp 2</label>
+                            <input type="text" class="form-control" id="MachineIBa2" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineIBa3" class="col-form-label">Biến áp 3</label>
+                            <input type="text" class="form-control" id="MachineIBa3" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineIBa4" class="col-form-label">Biến áp 4</label>
+                            <input type="text" class="form-control" id="MachineIBa4" disabled value="">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <div class="col-sm-4">
+                            <label class="col-form-label">Điện áp máy biến áp (V)</label>
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineUBa1" class="col-form-label">Biến áp 1</label>
+                            <input type="text" class="form-control" id="MachineUBa1" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineUBa2" class="col-form-label">Biến áp 2</label>
+                            <input type="text" class="form-control" id="MachineUBa2" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineUBa3" class="col-form-label">Biến áp 3</label>
+                            <input type="text" class="form-control" id="MachineUBa3" disabled value="">
+                        </div>
+                        <div class="col-sm-2" style="text-align:center;">
+                            <label id="lb_MachineUBa4" class="col-form-label">Biến áp 4</label>
+                            <input type="text" class="form-control" id="MachineUBa4" disabled value="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12" id="divAlertTransformer">
+                        </div>
+                    </div>
+                </div>
+            <!-- /.card-header -->
+            <!-- /.row -->
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+@section Scripts{
+    <script type='text/javascript'>
+        function loadStyle(url, callback) {
+            // Adding the link tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = url;
+            link.media = 'all';
+            // Then bind the event to the callback function.
+            // There are several events for cross browser compatibility.
+            link.onreadystatechange = callback;
+            link.onload = callback;
+            // Fire the loading
+            head.appendChild(link);
+        }
+
+        function loadScript(url, callback) {
+            // Adding the script tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            //script.async = false;
+            script.src = url;
+            // Then bind the event to the callback function.
+            // There are several events for cross browser compatibility.
+            script.onreadystatechange = callback;
+            script.onload = callback;
+            // Fire the loading
+            head.appendChild(script);
+        }
+    </script>
+    <script language="javascript" type="text/javascript" src="~/plugins/flot/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="~/plugins/flot/plugins/jquery.flot.resize.js"></script>
+    <script language="javascript" type="text/javascript" src="~/plugins/flot/plugins/jquery.flot.pie.js"></script>
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/view.forecast.js', function () {
+                        $(document).ready(function () {
+                            SetLableBienAp(window.innerWidth);
+                            document.getElementById("card-body-dongco").style.height = document.getElementById("card-body-mayluyen").offsetHeight;
+                            //GetMotor();
+                            //GetTransformer();
+                            $('#selectMotor').val(seMotorCode); $('#selectMotor').trigger('change');
+                            $('#selectTransformer').val(seTransformerCode); $('#selectTransformer').trigger('change');
+                            //$('#selectFieldNameMotor').val(seFieldNameMotor); $('#selectFieldNameMotor').trigger('change');
+                            //$('#selectFieldNameTransformer').val(seFieldNameTransformer); $('#selectFieldNameTransformer').trigger('change');
+
+                            InnitPage('Forecast');
+
+                            $(window).resize(function () {
+                                SetLableBienAp(window.innerWidth);
+                            });
+                            function SetLableBienAp(widthVal) {
+                                console.log(widthVal);
+                                var isMobile = true;
+                                if (window.innerWidth > 400) isMobile = false;
+                                if (isMobile) {
+                                    document.getElementById('lb_MachineUBa1').style.display = 'block';
+                                    document.getElementById('lb_MachineUBa2').style.display = 'block';
+                                    document.getElementById('lb_MachineUBa3').style.display = 'block';
+                                    document.getElementById('lb_MachineUBa4').style.display = 'block';
+                                    document.getElementById('lb_MachineIBa1').style.display = 'block';
+                                    document.getElementById('lb_MachineIBa2').style.display = 'block';
+                                    document.getElementById('lb_MachineIBa3').style.display = 'block';
+                                    document.getElementById('lb_MachineIBa4').style.display = 'block';
+                                    document.getElementById('lb_TempBa4').style.display = 'none';
+                                }
+                                else {
+                                    document.getElementById('lb_MachineUBa1').style.display = 'none';
+                                    document.getElementById('lb_MachineUBa2').style.display = 'none';
+                                    document.getElementById('lb_MachineUBa3').style.display = 'none';
+                                    document.getElementById('lb_MachineUBa4').style.display = 'none';
+                                    document.getElementById('lb_MachineIBa1').style.display = 'none';
+                                    document.getElementById('lb_MachineIBa2').style.display = 'none';
+                                    document.getElementById('lb_MachineIBa3').style.display = 'none';
+                                    document.getElementById('lb_MachineIBa4').style.display = 'none';
+                                    document.getElementById('lb_TempBa4').style.display = 'block';
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}

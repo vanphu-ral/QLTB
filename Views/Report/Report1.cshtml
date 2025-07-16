@@ -1,0 +1,223 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid" id="divMainInformation">
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3" id="divBox1">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1" id="icon-box1"><i class="fa-solid fa-signal"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber1">CPU Traffic</span>
+                    <span class="info-box-number" id="h3Number1">
+                    </span>
+                    <a onclick="ShowModalInfo(1)" class="small-box-footer"><span id="spanNumber1"></span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox2">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1" id="icon-box2"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber2">Likes</span>
+                    <span class="info-box-number" id="h3Number2">41,410</span>
+                    <a onclick="ShowModalInfo(2)" class="small-box-footer float-md-right"><span id="spanNumber2"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3" id="divBox3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1" id="icon-box3"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber3">Sales</span>
+                    <span class="info-box-number" id="h3Number3">760</span>
+                    <a onclick="ShowModalInfo(3)" class="small-box-footer float-md-right"><span id="spanNumber3"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox4">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1" id="icon-box4"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber4">New Members</span>
+                    <span class="info-box-number" id="h3Number4">2,000</span>
+                    <a onclick="ShowModalInfo(4)" class="small-box-footer"><span id="spanNumber4"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 card card-primary card-outline">
+                        <div class="card-header form-group row">
+                            <h3 class="card-title col-sm-4">
+                                <i class="far fa-chart-bar"></i>
+                                Biểu đồ báo cáo chi phí vật tư
+                            </h3>
+                        </div>
+                        <div class="card-body" style="max-height:350px;">
+                            <canvas id="dataDisplay" style="max-height:350px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 card card-primary card-outline">
+            <div class="card-header form-group row">
+                <h3 class="card-title col-sm-6">
+                    <i class="far fa-chart-bar"></i>
+                    Chi tiết sử dụng vật tư, phụ tùng trong các tháng
+                </h3>
+            </div>
+            <div class="card-body">
+                <table id="used-supplie-detail-table" class="table table-bordered table-hover" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th colspan="2"><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></th>
+                            <th colspan="4" style="text-align:center;">
+                                <p>VẬT TƯ SỬA CHỮA - THAY THẾ</p>
+                                <p><span id="SpanPlanMonth"></span> / <span id="SpanPlanYear"></span></p>
+                            </th>
+                            <th colspan="2">
+                                Đơn vị: <span id="SpanPlanDonVi"></span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="width:4%">STT</th>
+                            <th>Mã SAP</th>
+                            <th>Tên vật tư thiết bị</th>
+                            <th style="width: 15%; text-align: right;">Đơn vị</th>
+                            <th style="width: 15%; text-align: right;">Số lượng</th>
+                            <th style="width: 15%; text-align: right;">Đơn giá</th>
+                            <th>Thành tiền</th>
+                            <th>Mục đích sử dụng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="6" style="text-align:center;">
+                                <p>Tổng chi phí trong tháng (Ước tính) VNĐ <span></span></p>
+                            </th>
+                            <th colspan="1">
+                                <p><span id="total-cost"></span></p>
+                            </th>
+                            <th colspan="1">
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <p><span>RĐ.QT15.BM02a. Ban hành lần 2</span></p>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<div class="modal fade" id="modal-chitiet-home" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-home"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_detailViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script>
+        loadScript('../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../MledIdentity/lib/js/page/report.report.infor.js', function () {
+                        loadScript('../MledIdentity/lib/js/page/report.report1.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('Report1');
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    </script>
+}
+
+

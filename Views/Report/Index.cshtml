@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Css{
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Report1.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Report1.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<body class="hold-transition sidebar-mini">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center">
+                                <h3 class="card-title "><b>Báo cáo thống kê</b></h3>
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Report1.Create)).Result.Succeeded)
+                                {
+                                    <button type="button" class="ml-auto btn btn-success" onclick="ShowModal(-1)">Thêm</button>
+                                }
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body" id="divMainInformation">
+                                <table id="manager_table_list" class="table table-bordered table-hover">
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</body>
+
+
+

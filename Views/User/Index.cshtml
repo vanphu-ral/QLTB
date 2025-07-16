@@ -1,0 +1,246 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Css{
+    <style>
+        .btn-app > .badge {
+            right: 17px !important;
+            top: 45px !important;
+        }
+    </style>
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.User.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.User.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.User.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <table id="manager_table_list" class="table table-bordered table-hover">
+                    </table>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal-delete-nguoidung" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-nguoidung">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <p>Bạn có chắc muốn xóa dữ liệu này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteUser()"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<button type="button" id="btShowModalManager" style="display:none;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-manager-page"></button>
+<div class="modal fade" id="modal-manager-page" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-manager-title-nguoidung"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearFormEdit()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_editFormPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearFormEdit()">
+                    <span aria-hidden="true">&times; Hủy</span>
+                </button>
+                <button type="button" class="btn btn-primary" id="btSaveInformation"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-avatar-change" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-avatar-change">Thay đổi ảnh Avatar</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAvatar()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Name">Họ và tên</label>
+                            <input type="text" id="Name" class="form-control" name="Name" readonly autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <img id="imgEditAvata" style="width: 90% !important; max-height:130px; margin-top: -10px;" class="profile-user-img img-responsive img-circle" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Description">Chọn avatar</label>
+                            <div class="custom-file">
+                                <input type="hidden" id="FilePath" name="FilePath" class="form-control">
+                                <input type="hidden" id="FileName" name="FileName" class="form-control">
+                                <input type="file" class="custom-file-input" id="inputAvata" name="inputAvata">
+                                <label class="custom-file-label" id="labelinputAvata" for="inputAvata"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ClearAvatar()"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveAvatar()"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal-signalture-change" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-signalture-change">Thay đổi ảnh chữ ký</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearSignature()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Name">Họ và tên</label>
+                            <input type="text" id="Name" class="form-control" name="Name" readonly autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <img id="imgEditSignalture" style="width: 90% !important; max-height:130px; margin-top: -10px;" class="profile-user-img img-responsive img-circle" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Description">Chọn ảnh chữ ký</label>
+                            <div class="custom-file">
+                                <input type="hidden" id="FilePathSign" name="FilePathSign" class="form-control">
+                                <input type="hidden" id="FileNameSign" name="FileNameSign" class="form-control">
+                                <input type="file" class="custom-file-input" id="inputSignalture" name="inputSignalture">
+                                <label class="custom-file-label" id="labelinputSignalture" for="inputSignalture"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ClearSignature()"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveSignature()"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal-manager-nguoidung" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-manager-nguoidung">Phân nhóm người dùng</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearSignature()">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='embed-responsive' style="height:570px;">
+                    <iframe id="idiframeUseManager" height="550" frameborder="0" allowtransparency="true"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ClearSignature()"><span aria-hidden="true">&times;</span>&nbsp;Đóng</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/identity.user.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('Users');
+                        });
+                    });
+                });
+            });
+        });</script>
+
+}
+
+

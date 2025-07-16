@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" id="divMainInformation">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 80%;">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="scl_daitu-details-table" class="table table-bordered table-hover">
+                        <thead>
+                            <tr><th colspan="8"> <p>Đơn vị: <span id="SpanPlanDonVi"></span></p></th></tr>
+                            <tr><th colspan="8"> <p>VẬT TƯ SỬA CHỮA-THAY THẾ</p></th></tr>
+                            <tr><th colspan="8"> <p><span id="SpanPlanMonthYear">Tháng 7-2022</span></p></th></tr>                          
+                            <tr>
+                                <th style="width:5%;">STT</th>
+                                <th>Tổ</th>
+                                <th style="width:15%;">Tên thiết bị, vật tư</th>
+                                <th>Đơn vị</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>Mục đích sử dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="6"> <p><span>Tổng chi phí trong tháng (Ước tính) VNĐ</span></p></th>
+                                <th><p><span id="total-cost"></span></p></th>
+                                <th></th>                                
+                            </tr>
+                            <tr>
+                                <td colspan="8">
+                                    <button id="btAddSupplieUse" onclick="ShowModal(-2)" class="btn btn-secondary btn-success buttons-html5" tabindex="0" aria-controls="scl_daitu-details-table" type="button"><span>Thêm mới hạng mục</span></button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal_chitiet-scl_daitu" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-scl_daitu"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal_add-scbdthietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-scbdthietbi"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between" id="divFooterSave">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="EditSupplieUseDetail()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/supplie.use.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('PlanDaily');
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+
+}
+
+

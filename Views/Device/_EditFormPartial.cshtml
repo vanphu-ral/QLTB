@@ -1,0 +1,212 @@
+﻿<div class="row" id="divDeviceInfor">
+    <div class="col-12">
+        <div class="card card-info card-outline card">
+            <div class="card-header">
+                <h3 class="card-title"><b>Thông tin thiết bị</b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Name">Nhóm thiết bị</label>
+                        <select placeholder="Chọn nhóm" id="selectDeviceGroup" name="selectDeviceGroup"
+                                class="form-control-sm select2 select2-info is-warning"
+                                data-dropdown-css-class="select2-info" style="width: 90%;"
+                                onchange="seGroupId = parseInt(this.value);">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6" id="divCode" style="display:none;">
+                    <div class="form-group">
+                        <label for="Code">Mã số/Tên viết tắt</label>
+                        <input type="text" id="Code" class="form-control" name="Code" readonly autofocus>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Name">Tên thiết bị</label>
+                        <input type="text" id="Name" class="form-control is-warning" name="Name" autofocus>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="Origin">Xuất xứ</label>
+                        <input type="text" id="Origin" class="form-control" name="Origin" autofocus>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="TimeUse">Thời gian sử dụng:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                            <input id="TimeUse" placeholder="mm/yyyy" type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/yyyy" data-mask>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="TimeReceived">Thời gian tiếp nhận:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                            <input id="TimeReceived" placeholder="mm/yyyy" type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/yyyy" data-mask>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Thuộc tính:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Properties" checked="">
+                            <label class="form-check-label" style="width:80px;">Bảo trì</label>
+                            <input class="form-check-input" type="radio" name="Properties">
+                            <label class="form-check-label">Di chuyển</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="selectMaintenanceCycle">Chu kỳ bảo dưỡng</label>
+                            @* <select placeholder="Chọn chu kỳ bảo dưỡng" id="selectMaintenanceCycle" *@
+                            @*         name="selectMaintenanceCycle" class="form-control-sm select2 select2-info" *@
+                            @*         data-dropdown-css-class="select2-info" style="width: 90%;" *@
+                            @*         onchange="seMaintenanceCycle = this.value;" multiple> *@
+                            @*     <option selected="selected" value="0">Chọn</option> *@
+                            @*     <option value="Theo ngày">Theo ngày</option> *@
+                            @*     <option value="Theo tuần">Theo tuần</option> *@
+                            @*     <option value="Theo tháng">Theo tháng</option> *@
+                            @*     <option value="Theo quý">Theo Quý</option> *@
+                            @*     <option value="Theo năm">Theo Năm</option> *@
+                            @*     <option value="Khác">Khác</option> *@
+                            @* </select> *@
+                         <select placeholder="Chọn chu kỳ bảo dưỡng" id="selectMaintenanceCycle" 
+                                 name="selectMaintenanceCycle" class="form-control-sm select2 select2-info" 
+                                 data-dropdown-css-class="select2-info" style="width: 90%;" 
+                                 onchange="seMaintenanceCycle = parseInt(this.value);"> 
+                             <option selected="selected" value="0">Chọn</option> 
+                             <option value="1">Theo ngày</option> 
+                             <option value="2">Theo tuần</option> 
+                             <option value="3">Theo tháng</option> 
+                             <option value="4">Theo Quý</option> 
+                             <option value="5">Theo Năm</option> 
+                             <option value="6">Theo ngày, theo tuần, theo năm</option> 
+                             <option value="7">Theo ngày, theo năm</option>
+                                <option value="8">Theo ngày, theo tuần</option>
+                                <option value="9">Theo tuần, theo năm</option>
+                                <option value="10">Khác</option>
+                            </select> 
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckIsStatus">
+                                <label for="ckIsStatus">
+                                    Dừng hoạt động
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckIsImportant">
+                                <label for="ckIsImportant">
+                                    Là thiết bị trọng yếu
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckGetRangDong">
+                                <label for="ckGetRangDong">
+                                    Cho phép lấy dữ liệu tự động
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="selectBranch">Chọn ngành</label>
+                        <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="selectTeam">Chọn tổ</label>
+                        <select placeholder="Chọn tổ" id="selectTeam" name="selectTeam"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="selectLine">Chọn dây chuyền</label>
+                        <select placeholder="Chọn dây chuyền" id="selectLine" name="selectLine"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Description">Mô tả</label>
+                        <textarea class="form-control" rows="3" placeholder="Enter ..." id="Description"
+                                  name="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Mô tả khác</label>
+                        <textarea class="form-control" rows="3" placeholder="Enter ..." id="Description2"
+                                  name="Description2"></textarea>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="QRCode">QR CODE</label>
+                            <input type="text" id="QRCode" class="form-control" name="QRCode" autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group" style="clear:both;">
+                        <div class="form-group">
+                            <label for="labelQRCodeImg" id="labelQRCodeImg">Chọn Ảnh</label>
+                            <div class="custom-file" style="width:50%;">
+                                <input type="file" class="custom-file-input" id="inputQRCodeImg" name="inputQRCodeImg">
+                                <label class="custom-file-label" id="QRCodeImg" for="inputQRCodeImg"></label>
+                            </div>
+                            <button type="button" class="btn btn-default" id="btn-img-reset"><span aria-hidden="true">×</span>&nbsp;Xóa ảnh</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <img id="imgEditQRCodeImg" style="width: auto !important; max-height:130px; margin-top: -10px;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>

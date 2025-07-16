@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <div class="ml-auto" style="width:80%; float:right; text-align:right; ">
+                        <div class="row" style="padding-bottom:5px;">
+                            <div class="col-md-4">
+                                <div class="input-group date" id="searchstartdate" data-target-input="nearest">
+                                    <label for="inputsearchstartdate"> Thời gian từ:</label>
+                                    <input type="text" id="inputsearchstartdate" class="form-control datetimepicker-input" data-target="#searchstartdate" placeholder="" />
+                                    <div class="input-group-append" data-target="#searchstartdate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group date" id="searchenddate" data-target-input="nearest">
+                                    <label for="inputsearchenddate"> - Đến:</label>
+                                    <input type="text" id="inputsearchenddate" class="form-control datetimepicker-input" data-target="#searchenddate" placeholder="" />
+                                    <div class="input-group-append" data-target="#searchenddate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                    <button type="button" class="ml-auto btn btn-primary" onclick="GetUserActive()">
+                                        Xem kết quả
+                                    </button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" style="display:none;" id="btDeleteRow" class="ml-auto btn btn-danger" onclick="ShowDeleteModal(0)">
+                                    Xóa    kết quả
+                                </button>
+                            </div>
+                            <div class="col-md-1">
+                                    <input type="hidden" id="isDelete" value="-1" />
+                                    <button type="button" style="display:none;" id="btDeleteAll" class="ml-auto btn btn-danger" onclick="ShowDeleteModal(-1)">
+                                        Làm sạch nhật ký
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <table id="manager_table_list" class="table table-bordered table-hover">
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal-useractive" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-useractive"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="Name">Tên phòng ban/đơn vị</label>
+                            <input type="text" id="Name" class="form-control" name="Name" autofocus>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="Description">Mô tả</label>
+                            <input type="text" id="Description" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Clear()"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveUserActive()"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-delete-useractive" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-useractive">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <p>Bạn có chắc muốn xóa dữ liệu này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteUserActive()"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+@section Scripts{
+    <script>
+    loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/identity.useractive.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('UserActive');
+                        });
+                    });
+                });
+            });
+        });</script>
+
+}
+
+

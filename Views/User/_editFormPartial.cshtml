@@ -1,0 +1,142 @@
+﻿<div class="products-list product-list-in-card pl-2 pr-2">
+    <div class="product-info row" style="display:none;">
+        <div class="col-6">
+            <div class="product-title">
+                <label for="UserName">Tên đăng nhập</label>
+            </div>
+            <div class="product-description">
+                <input type="text" id="UserName" class="form-control" name="UserName" autofocus disabled>
+            </div>
+        </div> 
+         <div class="col-6">
+            <div class="product-title">
+                <label for="UserName">Ảnh đại diện</label>
+            </div>
+            <div class="product-description">
+                <input type="hidden" id="ImageUrl" name="ImageUrl">
+                        <input class="btn btn-default" type="file" id="inputImageUrl">
+                        <label style="display:none;" id="labelFileNameSelect" for="labelFileNameSelect"></label>
+                    
+            </div>
+            
+        </div>             
+    </div>
+    <div class="product-info row justify-content-end" style="display:none;">
+           <div class="col-6">
+            <div class="product-info" id="divEditImageUrl">
+                     <div class="product-description">
+                    <img id="imgEditImageUrl"
+                         style="width: auto !important; max-height:120px;"/>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-info row">
+        <div class="col-12">
+            <div class="product-title">
+                <label for="FullName">Họ và tên</label>
+            </div>
+            <div class="product-description">
+                <input type="text" id="FullName" class="form-control" name="FullName" autofocus>
+            </div>
+        </div>       
+    </div>
+    <div class="product-info row">
+        <div class="col-12">
+            <div class="product-title">
+                <label for="PhoneNumber">Điện thoại</label>
+            </div>
+            <div class="product-description">
+                
+                <input type="text" id="PhoneNumber" class="form-control" name="PhoneNumber" autofocus>
+            </div>
+        </div>
+    </div>
+    <div class="product-info row">
+        <div class="col-12">
+            <div class="product-title">
+                <label for="Email">Email</label>
+            </div>
+            <div class="product-description">
+                <input type="text" id="Email" class="form-control" name="Email" autofocus>
+            </div>
+        </div>
+    </div>
+    <div class="product-info" row>
+        <div class="col-12">
+        <div class="product-title">
+            <label for="Description">Địa chỉ</label>
+        </div>
+        <div class="product-description">
+            <textarea class="form-control" rows="3" placeholder="Enter ..." id="Description" name="Description"></textarea>
+        </div>
+        </div>
+    </div>
+    <div class="product-info" row>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="selectBranch">Chọn ngành</label>
+                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                        class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="selectTeam">Chọn tổ</label>
+                <select placeholder="Chọn tổ" id="selectTeam" name="selectTeam"
+                        class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="selectLine">Chọn dây chuyền</label>
+                <select placeholder="Chọn dây chuyền" id="selectLine" name="selectLine"
+                        class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="product-info" row>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Code">Phòng ban/Đơn vị</label>
+                <select placeholder="Chọn phòng ban/đơn vị" id="selectDepartment" name="selectDepartment" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 90%;" onchange="seDepartmentId = parseInt(this.value);">
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="Code">Chức vụ</label>
+                <select placeholder="Chọn chức vụ" id="selectPosition" name="selectPosition" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 90%;" onchange="sePositionId = parseInt(this.value);">
+                </select>
+            </div>
+        </div>
+        @*-TGĐ/Người được ủy quyền
+        -Trưởng ban/ngành: (Trưởng ngành, Quản đốc xưởng)
+        -Trưởng đơn vị
+        -Phụ trách thiết bị/Bộ phận QL/SD thiết bị
+        -Tổ trưởng
+        - Đại diện đơn vị SCBD (nếu thuê ngoài)
+        -Nguoi lapKH: tự động lấy theo hệ thống  UserPlan*@
+        <div class="product-info" row>
+            <div class="form-group">
+                <label for="Code">Cấp quản lý (Chọn cấp để phân duyệt văn bản)</label>
+                <select placeholder="Chọn" id="selectManagerLevel" name="selectManagerLevel" class="form-control-sm select2 select2-info"
+                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                    <option value="0">Khác</option> @*UserPlan*@
+                    <option value="4">TGĐ/Người được ủy quyền</option> @*UserAuthority*@
+                    <option value="3">Quản đốc xưởng/UQ</option> @*UserFactory*@
+                    <option value="2">Trưởng đơn vị/Trưởng ngành/Phụ trách thiết bị/Bộ phận QL/SD thiết bị</option> @*UserBranch*@
+                    <option value="1">Tổ trưởng</option> @*UserWeek*@
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

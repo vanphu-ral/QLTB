@@ -1,0 +1,478 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+@section Css{
+    <style>
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input.inputstatus {
+            padding: 0.0rem 0.1rem !important;
+        }
+    </style>
+}
+
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<div class="container-fluid">
+    @* <Kế hoạch hàng ngày hàng tuần> *@
+    <div class="card">
+        <div class="card-header">
+            <div class="row" style="width:88%; float:left;">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice"
+                                class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 90%;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <select placeholder="Chọn năm" id="selectYear" name="selectYear" class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 80%;">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <select placeholder="Chọn tháng" id="selectMonth" name="selectMonth" class="form-control-sm select2 select2-info"
+                                data-dropdown-css-class="select2-info" style="width: 80%;">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card-tools" style="float: right;">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" id="divMainInformation">
+            <table id="daily-trouble-hasreport-table" class="table table-bordered table-hover">
+            </table>
+        </div>
+
+        <div class="card-body" id="divMainInformation_" style="display:none;">
+            <table id="plandaily-details-table" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="3"><img src="~/imgs/Logo Rang Dong.png" style="width:150px;" /></th>
+                        <th colspan="15"><b>BẢNG KIỂM TRA, BẢO DƯỠNG MÁY HÀNG NGÀY, HÀNG TUẦN</b></th>
+                        <th colspan="6">Số hiệu:<span id="spanPlanNumber"></span><span id="SpanDieuChinh"></span></th>
+                        <th colspan="4">Biên soạn</th>
+                        <th colspan="4">Soát xét</th>
+                        <th colspan="4">Phê duyệt</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Tên đơn vị: <span id="SpanPlanDonVi"></span></th>
+                        <th colspan="9">Số hiệu máy: <span id="spanDeviceCode"></span></th>
+                        <th rowspan="3" colspan="5">
+                            <p><span id="SpanPlanMonth"></span></p>
+                            <p><span id="SpanPlanYear"></span></p>
+                        </th>
+                        <th rowspan="2" colspan="6"><span id="spanMainDatePlan">Ngày / tháng / năm</span></th>
+                        <th rowspan="3" colspan="4" style="text-align:center;" id="idBranch"></th>
+                        <th rowspan="3" colspan="4" style="text-align:center;" id="tdFactory"></th>
+                        <th rowspan="3" colspan="4" style="text-align:center;" id="tdAuthority"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Tên máy: <span id="spanDeviceName"></span></th>
+                        <th colspan="9">Dây chuyền: <span id="spanLineName"></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            Cách thức kiểm tra:
+                            <i class="fa-solid fa-circle-half-stroke"></i>Đầu giờ
+                            <i class="fa-solid fa-circle-half-stroke fa-rotate-180"></i>Cuối giờ
+                            <i class="fa-solid fa-circle"></i>Hàng tuần
+                        </th>
+                        <th colspan="9">Tổ: <span id="spanTeamName"></span></th>
+                        <th colspan="6">Lần ban hành lần 1</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">TT</th>
+                        <th rowspan="2" colspan="2">Hạng mục chính</th>
+                        <th rowspan="2">Nội dung thực hiện</th>
+                        <th rowspan="2">Người thực hiện</th>
+                        <th colspan="31">Ngày trong tháng</th>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                        <th>11</th>
+                        <th>12</th>
+                        <th>13</th>
+                        <th>14</th>
+                        <th>15</th>
+                        <th>16</th>
+                        <th>17</th>
+                        <th>18</th>
+                        <th>19</th>
+                        <th>20</th>
+                        <th>21</th>
+                        <th>22</th>
+                        <th>23</th>
+                        <th>24</th>
+                        <th>25</th>
+                        <th>26</th>
+                        <th>27</th>
+                        <th>28</th>
+                        <th>29</th>
+                        <th>30</th>
+                        <th>31</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td rowspan="2" colspan="4">
+                            <p>
+                                1. Đánh dấu [<i class="far fa-circle"></i>] khi OK, Dấu [<i class="fa-solid fa-circle-play fa-rotate-270"></i>] khi đã điều chỉnh, [<i class="fas fa-times"></i>] khi có bất thường.
+                            </p>
+                            <p>2. Khi có bất thường, liên lạc với Tổ trưởng hoặc nhóm kỹ thuật, cơ khí Ngành.</p>
+                            <p>
+                                3. Tổ trưởng hoặc nhóm kỹ thuật, sửa chữa ghi nội dung, ngày tháng, chữ kí vào
+                                phần &#60;Ghi chép khi có bất thường, sự cố&#62;.
+                            </p>
+                            <p>4. Gạch chéo ( // ) vào ngày không sử dụng.</p>
+                            <p>5. Mục hàng tuần: Ghi rõ ngày thực hiện.</p>
+                        </td>
+                        <td>Người thực hiện ký</td>
+                        <td id="sign_day_01" style="padding:0px !important;"></td>
+                        <td id="sign_day_02" style="padding:0px !important;"></td>
+                        <td id="sign_day_03" style="padding:0px !important;"></td>
+                        <td id="sign_day_04" style="padding:0px !important;"></td>
+                        <td id="sign_day_05" style="padding:0px !important;"></td>
+                        <td id="sign_day_06" style="padding:0px !important;"></td>
+                        <td id="sign_day_07" style="padding:0px !important;"></td>
+                        <td id="sign_day_08" style="padding:0px !important;"></td>
+                        <td id="sign_day_09" style="padding:0px !important;"></td>
+                        <td id="sign_day_10" style="padding:0px !important;"></td>
+                        <td id="sign_day_11" style="padding:0px !important;"></td>
+                        <td id="sign_day_12" style="padding:0px !important;"></td>
+                        <td id="sign_day_13" style="padding:0px !important;"></td>
+                        <td id="sign_day_14" style="padding:0px !important;"></td>
+                        <td id="sign_day_15" style="padding:0px !important;"></td>
+                        <td id="sign_day_16" style="padding:0px !important;"></td>
+                        <td id="sign_day_17" style="padding:0px !important;"></td>
+                        <td id="sign_day_18" style="padding:0px !important;"></td>
+                        <td id="sign_day_19" style="padding:0px !important;"></td>
+                        <td id="sign_day_20" style="padding:0px !important;"></td>
+                        <td id="sign_day_21" style="padding:0px !important;"></td>
+                        <td id="sign_day_22" style="padding:0px !important;"></td>
+                        <td id="sign_day_23" style="padding:0px !important;"></td>
+                        <td id="sign_day_24" style="padding:0px !important;"></td>
+                        <td id="sign_day_25" style="padding:0px !important;"></td>
+                        <td id="sign_day_26" style="padding:0px !important;"></td>
+                        <td id="sign_day_27" style="padding:0px !important;"></td>
+                        <td id="sign_day_28" style="padding:0px !important;"></td>
+                        <td id="sign_day_29" style="padding:0px !important;"></td>
+                        <td id="sign_day_30" style="padding:0px !important;"></td>
+                        <td id="sign_day_31" style="padding:0px !important;"></td>
+                    </tr>
+                    <tr>
+                        <td>Tổ trưởng xác nhận ký (1 tuần/lần)</td>
+                        <td colspan="7" id="sign_week_01"></td>
+                        <td colspan="7" id="sign_week_02"></td>
+                        <td colspan="7" id="sign_week_03"></td>
+                        <td colspan="7" id="sign_week_04"></td>
+                        <td colspan="3" id="sign_week_05"></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p>
+                <span>(*) Ghi chú: Các đơn vị có thể bổ sung tùy theo đặc điểm từng máy móc công nghệ.</span>
+            </p>
+            <p><span>RĐ.QT15.BM03. Ban hành lần 1</span></p>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer" style="display:none;">
+            <button id="btAddPlanDaily" type="button" class="ml-auto btn btn-success" onclick="ShowPlanDailyModal(-1)">
+                <i class="fa fa-plus"></i> Thêm hạng mục mới
+            </button>
+            <button id="btEditTablePlanDaily" type="button" class="ml-auto btn btn-warning" onclick="ShowPlanDailyViewInput()">
+                <i class="fa-solid fa-pen-to-square"></i> Cập nhật nội dung bảng kiểm tra
+            </button>
+            <button id="btUpdateTablePlanDaily" type="button" class="ml-auto btn btn-info" onclick="ShowPlanDailyUpdate()">
+                <i class="fa fa-repeat"></i> Tài lại nội dung bảng kiểm tra
+            </button>
+            <span class="attachment-heading text-red">Ghi chú: Khi cập nhật bảng kiểm tra. Nhập 1 =(<i class="far fa-circle fa-1x"></i>) Đánh dấu khi OK, Nhập 2 =(<i class="fa-solid fa-circle-play fa-rotate-270 fa-1x"></i>) Khi đã điều chỉnh, Nhập 3 =<i class="fas fa-times fa-1x"></i>)  khi có bất thường, 4=(<i> </i>) Không bảo dưỡng</span>
+        </div>
+    </div>
+    <!-- /.row -->
+    @* <GHi ghép bất thường sự cố> *@
+    <div class="card" style="display:none;">
+        <div class="card-header d-flex p-0" style="display:none;">
+            <h3 class="card-title" style="line-height:60px; padding-left:10px;">
+                <b>
+                    &lsaquo;&lsaquo;Ghi chép khi có bất thường, sự cố&rsaquo;&rsaquo;
+                </b>
+            </h3>
+            <ul class="nav nav-pills ml-auto p-2" style="display:none;">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#tab_1" data-toggle="tab">
+                        Sự cố bất thường
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tab_2" data-toggle="tab">Sự cố nghiêm trọng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tab_3" data-toggle="tab">Biên bản sự cố Thiết bị</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body" id="divMainInformation__">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                    <table id="daily-trouble-details-table" class="table table-bordered table-hover">
+                    </table>
+                    <p><span>RĐ.QT15.BM03. Ban hành lần 1</span></p>
+                </div>
+                <div class="tab-pane" id="tab_2">
+                   @* Sử dụng mỗi cái này
+                    <table id="daily-trouble-hasreport-table" class="table table-bordered table-hover">
+                    </table>*@
+                </div>
+                <div class="tab-pane" id="tab_3">
+                    <table id="daily-report-table" class="table table-bordered table-hover">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="modal_add-planDaily" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-planDaily"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAddPlan()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddPlan()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyMeasurement()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-add-trouble-scbdthietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-trouble-scbdthietbi">Thêm mới bất thường, sự cố</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAddTrouble()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddTroublePartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddTrouble()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyTrouble()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal_add-trouble-report" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-trouble-report"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="ClearAddTroubleReport()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingReportPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddTroubleReport()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyTroubleReport()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+<div class="modal fade" id="modal_report-list" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-report-list"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseList()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingReportPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseList()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyReport()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal_chitiet-scl_daitu" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-scl_daitu"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAddPlan()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddPlan()">
+                    Delete
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-CreateToAdjust" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tạo bản điều chỉnh kế hoạch</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style=" text-decoration-style:initial;"><i class="fa-solid fa-question text-warning"></i>&nbsp;&nbsp;Bạn có chắc chắn muốn tạo bản điểu chỉnh cho hồ sơ này?</p>
+                <p> (Sau khi tạo bản điều chỉnh, Hồ sơ hiện tại sẽ được lưu trong dữ liệu hồ sơ, người dùng không thể thay đổi thông tin của hồ sơ cũ nữa.)</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="ActCreateToAdjust()">
+                    <i class="far fa-save"></i>&nbsp;Tạo bản điều chỉnh
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/plan.daily.js', function () {
+                            loadScript('MledIdentity/lib/js/page/plan.dailydetail.js', function () {
+                                loadScript('MledIdentity/lib/js/page/plan.dailytrouble.js', function () {
+                                    loadScript('MledIdentity/lib/js/page/plan.dailytroublereport.js', function () {
+                                        $(document).ready(function () {
+                                            InnitPage('PlanDaily');
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}

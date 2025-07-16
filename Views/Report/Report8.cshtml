@@ -1,0 +1,267 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3" id="divBox1">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1" id="icon-box1"><i class="fa-solid fa-signal"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber1">CPU Traffic</span>
+                    <span class="info-box-number" id="h3Number1">
+                    </span>
+                    <a onclick="ShowModalInfo(1)" class="small-box-footer"><span id="spanNumber1"></span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox2">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1" id="icon-box2"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber2">Likes</span>
+                    <span class="info-box-number" id="h3Number2">41,410</span>
+                    <a onclick="ShowModalInfo(2)" class="small-box-footer float-md-right"><span id="spanNumber2"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3" id="divBox3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1" id="icon-box3"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber3">Sales</span>
+                    <span class="info-box-number" id="h3Number3">760</span>
+                    <a onclick="ShowModalInfo(3)" class="small-box-footer float-md-right"><span id="spanNumber3"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3" id="divBox4">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1" id="icon-box4"><i class="fa-solid fa-signal"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" id="labelNumber4">New Members</span>
+                    <span class="info-box-number" id="h3Number4">2,000</span>
+                    <a onclick="ShowModalInfo(4)" class="small-box-footer"><span id="spanNumber4"> </span> <i class="fas fa-arrow-circle-right float-md-right"></i></a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    @*box-thống kê*@
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!--card body-->
+                <div class="card-body" id="divMainInformation">
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-4 order-1 order-md-1">
+                            <h3 class="text-primary"><i class="fas fa-paint-brush"></i> Thiết bị: MBG.TB002 - Máy bao gói đèn M36</h3>
+                            <p class="text-muted">Mô tả thiết bị:</p>
+                            <br>
+                            <div class="text-muted">
+                                <p class="text-sm">
+                                    Nhóm:
+                                    <b class="d-block">Máy bao gói đèn [MBG]</b>
+                                </p>
+                                <p class="text-sm">
+                                    Xuất xứ:
+                                    <b class="d-block">Trung Quốc</b>
+                                </p>
+                                <p class="text-sm">
+                                    Thời gian sử dụng:
+                                    <b class="d-block">01/2020</b>
+                                </p>
+                                <p class="text-sm">
+                                    Thời gian tiếp nhận:
+                                    <b class="d-block">01/2020</b>
+                                </p>
+                                <p class="text-sm">
+                                    Chu kỳ bảo dưỡng
+                                    <b class="d-block">Hàng tuần</b>
+                                </p>
+                                <p class="text-sm">
+                                    Nơi vị trí đang lắp đặt:
+                                    <b class="d-block">Tổ lắp ráp LED2-3</b>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-8 order-2 order-md-2">
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Số lần dừng sửa chữa</span>
+                                            <span class="info-box-number text-center text-muted mb-0" id="number-stop">1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Số lần di chuyển</span>
+                                            <span class="info-box-number text-center text-muted mb-0" id="number-move">1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Tổng thời gian hoạt động (giờ)</span>
+                                            <span class="info-box-number text-center text-muted mb-0" id="number-timestop">120</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>Lịch sử di chuyển thiết bị</h4>
+                                    <div class="post">
+                                        <table id="move-table" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:5%;" class="sorting sorting_asc" tabindex="0" aria-controls="thietbi-history-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="STT: Sắp xếp giảm dần">STT</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="thietbi-history-table" rowspan="1" colspan="1" aria-label="Tên thiết bị: Sắp xếp tăng dần">Tên thiết bị</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="thietbi-history-table" rowspan="1" colspan="1" aria-label="Ngành ban: Sắp xếp tăng dần">Ngành ban</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="thietbi-history-table" rowspan="1" colspan="1" aria-label="Tổ đội: Sắp xếp tăng dần">Tổ đội</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="thietbi-history-table" rowspan="1" colspan="1" aria-label="Dây chuyền: Sắp xếp tăng dần">Dây chuyền</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="thietbi-history-table" rowspan="1" colspan="1" aria-label="Ngày cập nhật: Sắp xếp tăng dần">Ngày cập nhật</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody-thietbi">
+                                                <tr class="odd"><td class="dtr-control sorting_1" tabindex="0">1</td><td>Máy bao gói đèn M36 </td><td>Ngành lắp ráp LED 2</td><td>Chuyển từ Tổ lắp ráp LED2-2 đến Tổ lắp ráp LED2-3</td><td>Chuyển từ M36 01 đến TUBE TT 02</td><td>26/09/2022 14:08</td></tr>
+                                                <tr><td class="sorting_1 dtr-control">2</td><td>Máy bao gói đèn M36 </td><td>Ngành lắp ráp LED 2</td><td>Tổ lắp ráp LED2-2</td><td>M36 01</td><td>30/05/2022 09:54</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h4>Lịch sử sửa chữa bảo dưỡng thiết bị</h4>
+                                    <div class="post clearfix">
+                                        <table id="other-table" class="table table-bordered table-hover no-footer dataTable" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2" rowspan="1"><img src="/imgs/Logo Rang Dong.png" style="width:150px;"></th>
+                                                    <th colspan="2" style="text-align:center;" rowspan="1">
+                                                        <p>SỔ THEO DÕI SỬA CHỮA THIẾT BỊ</p>
+                                                        <p><span id="SpanTimeReport">Chọn tháng/Năm 2022</span></p>
+                                                    </th>
+                                                    <th colspan="3" rowspan="1">
+                                                        <p>Đơn vị: <span id="SpanPlanDonVi">LED; Điện tử &amp; TBCS; LED2; Ngành lắp ráp LED 2</span></p>
+                                                        <p>Thiết bị: <span id="SpanPlanThietBi">MBG.TB002; Máy bao gói đèn M36 </span></p>
+                                                    </th>
+                                                </tr>
+                                                <tr><th style="width:4%" class="sorting_disabled" rowspan="1" colspan="1">STT</th><th class="sorting_disabled" rowspan="1" colspan="1">Ngày tháng</th><th class="sorting_disabled" rowspan="1" colspan="1">Nội dung sửa chữa</th><th class="sorting_disabled" rowspan="1" colspan="1">Thời gian dừng máy</th><th class="sorting_disabled" rowspan="1" colspan="1">Người thực hiện</th><th class="sorting_disabled" rowspan="1" colspan="1">Vật tư sử dụng</th><th class="sorting_disabled" rowspan="1" colspan="1">Ghi chú</th></tr>
+                                            </thead>
+                                            <tbody><tr class="odd"><td>1</td><td>15/08/2022</td><td>Lệch băng tài cấp đầu hồi lần 2 và thay bưng tải chính</td><td style="text-align: right;">24</td><td></td><td>Attomat 16A<br>Attomat NXB125<br></td><td></td></tr>
+                                            <tr class="even"><td>2[<i class="fa-solid fa-star text-warning fa-xs"></i>]</td><td>03/08/2022</td><td><p>&emsp; &nbsp; 1: Kiểm tra hệ thống xích tải, nhông. Tra dầu, mở các ổ bi, gối đỡ.</p><p>&emsp; &nbsp; 2: Kiểm tra các khuôn, siết lại tất cả các ecu. Căn chỉnh lại theo cữ chuẩn.</p><p>&emsp; &nbsp; 3: Kiểm tra lại tất cả các đầu giác hút chân không. Thay thế khi có hiện tượng sách và mòn.</p><p>&emsp; &nbsp; 4: Căn chỉnh lại hết các khuôn đóng đầu hồi 2 bên, khuôn định vị máng và khuôn cài nguồn.</p><p>&emsp; &nbsp; 5: Kiểm tra tình trạng hoạt động của tất cả các xilanh, van từ, sensor của 2 máy.</p><p>&emsp; &nbsp; 6: Kiểm tra hoạt động của toàn bộ dây chuyền: các cụm hàn, cụm vào cover, cụm hút, cụm bơm keo và dán led.</p></td><td style="text-align: right;">96</td><td></td><td></td><td></td></tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<div class="modal fade" id="modal-chitiet-home" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-home"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_detailViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script>
+        loadScript('../MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('../MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('../MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('../MledIdentity/lib/js/page/report.report.infor.js', function () {
+                        loadScript('../MledIdentity/lib/js/page/report.report8.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('Report1');
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}
+
+

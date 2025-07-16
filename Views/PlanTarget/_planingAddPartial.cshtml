@@ -1,0 +1,160 @@
+﻿<div class="card card-info card-outline">
+    <div class="card-body">
+        <div class="form-group">
+            <p>Đơn vị:<span id="spanEditDonvi"></span></p>
+            <p><span id="spanEditYear">2022</span></p>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-info card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><b><a>Nhập thông tin các hạng mục </a></b></h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Measurement">Nội dung</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Measurement" name="Measurement"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Targets">Mục tiêu</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Targets" name="Targets"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Solution">Biện pháp thực hiện</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Solution" name="Solution"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="hidden" id="Duration1" name="Duration1" class="form-control">
+                            <label for="Targets">Thời hạn</label>
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckWeek">
+                                <label for="ckWeek">
+                                    Hàng tuần
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckMonth">
+                                <label for="ckMonth">
+                                    Hàng tháng
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckQuarterly">
+                                <label for="ckQuarterly">
+                                    Hàng quý
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="checkbox" id="ckYear">
+                                <label for="ckYear">
+                                    Hàng năm
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10">
+                        <div class="form-group">
+                            <input type="hidden" id="TargetType" name="TargetType" class="form-control">
+                            <label for="TargetType">Mục tiêu về</label>         
+                            <div class="icheck-success d-inline">                                
+                                <input type="radio" id="TargetType0" value="0" name="TargetType">
+                                <label for="TargetType0">
+                                    Bỏ chọn
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="TargetType1" value="1" name="TargetType">
+                                <label for="TargetType1">
+                                    Số lần dừng máy
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="TargetType2" value="2" name="TargetType">
+                                <label for="TargetType2">
+                                    Thời gian dừng máy
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="TargetType3" value="3" name="TargetType">
+                                <label for="TargetType3">
+                                    Thời gian sửa chữa
+                                </label>
+                            </div>
+                            <div class="icheck-success d-inline">
+                                <input type="radio" id="TargetType4" value="4" name="TargetType">
+                                <label for="TargetType4">
+                                    Chi phí sửa chữa
+                                </label>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="MinValue">Giá trị đối chiếu</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input type="number" min="0" id="MinValue" class="form-control" name="MinValue" style="width:120px">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="UserAct">Người thực hiện</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="UserAct" name="UserAct"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="CoordinationUnit">Đơn vị phối hợp</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="CoordinationUnit" name="CoordinationUnit"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Note">Ghi chú</label>
+                            <textarea class="form-control" rows="2" placeholder="Enter ..." id="Note" name="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+

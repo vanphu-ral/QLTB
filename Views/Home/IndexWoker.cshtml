@@ -1,0 +1,290 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@model (string funName, string titleName)
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanDaily.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<div class="container-fluid">
+    @* <Kế hoạch hàng ngày hàng tuần> *@
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Model.funName</h3>
+                    <div class="row" style="width:88%; float:left;">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn xưởng" id="selectFactory" name="selectFactory"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn ngành" id="selectBranch" name="selectBranch"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <select placeholder="Chọn thiết bị" id="selectDevice" name="selectDevice"
+                                        class="form-control-sm select2 select2-info"
+                                        data-dropdown-css-class="select2-info" style="width: 90%;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <p><label id="lblDayString"></label></p>
+                                <p><span id="SpanPlanDonVi"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tools" style="float: right;">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="divMainInformation">                    
+                    <div class="row">
+                        <div class="col-12">
+                            <ul id="ulPladDailyDay" class="products-list product-list-in-card">                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <!-- /.row -->
+    @* <GHi ghép bất thường sự cố> *@
+    <div class="row" id="divPlanTrouble">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex p-0">
+                    <h3 class="card-title" style="line-height:60px; padding-left:10px;">
+                        <b>
+                            &lsaquo;&lsaquo;Ghi chép khi có bất thường, sự cố&rsaquo;&rsaquo;
+                        </b>
+                    </h3>
+                    <ul class="nav nav-pills ml-auto p-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab_1" data-toggle="tab">
+                                Sự cố bất thường
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab_2" data-toggle="tab">Sự cố nghiêm trọng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab_3" data-toggle="tab">Biên bản sự cố Thiết bị</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <table id="daily-trouble-details-table" class="table table-bordered table-hover">
+                            </table>
+                            <p><span>RĐ.QT15.BM03. Ban hành lần 1</span></p>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <table id="daily-trouble-hasreport-table" class="table table-bordered table-hover">
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                            <table id="daily-report-table" class="table table-bordered table-hover">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+<div class="modal fade" id="modal_add-planDaily" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-planDaily"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAddPlan()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddPlan()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyMeasurement()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+ @*/.modal-content*@ 
+</div>
+ @*/.modal-dialog*@ 
+</div>
+<div class="modal fade" id="modal-add-trouble-scbdthietbi" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-trouble-scbdthietbi">Thêm mới bất thường, sự cố</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAddTrouble()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingAddTroublePartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddTrouble()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyTrouble()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal_add-trouble-report" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-add-trouble-report"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="ClearAddTroubleReport()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingReportPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddTroubleReport()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyTroubleReport()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+ @*/.modal-content*@ 
+</div>
+<!-- /.modal-dialog -->
+<div class="modal fade" id="modal_report-list" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-report-list"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseList()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingReportPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="CloseList()">
+                    <span aria-hidden="true">&times;</span>&nbsp;Hủy
+                </button>
+                <button type="button" class="btn btn-primary" onclick="SavePlanDailyReport()">
+                    <i class="fa-solid fa-sd-card"></i>&nbsp;Lưu
+                </button>
+            </div>
+        </div>
+ @*/.modal-content*@ 
+</div>
+ @*/.modal-dialog*@ 
+</div>
+
+<div class="modal fade" id="modal_chitiet-scl_daitu" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-chitiet-scl_daitu"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearAddPlan()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <partial name="_planingViewPartial" itemid="1" />
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAddPlan()">
+                    Delete
+                </button>
+            </div>
+        </div>
+<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/plan.daily.worker.js', function () {
+                            loadScript('MledIdentity/lib/js/page/plan.dailydetail.js', function () {
+                                loadScript('MledIdentity/lib/js/page/plan.dailytrouble.js', function () {
+                                    loadScript('MledIdentity/lib/js/page/plan.dailytroublereport.js', function () {
+                                        $(document).ready(function () {
+                                            InnitPage('PlanDaily');
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}

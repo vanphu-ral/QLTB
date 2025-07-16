@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+@section Css{
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="col-md-4">
+                            <label class="text-right float-right">Chọn thời gian ghi nhật ký</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select placeholder="Thời gian ghi lỗi" id="selectTimeLog" name="selectTimeLog" class="form-control-sm select2 select2-info"
+                                    data-dropdown-css-class="select2-info" style="width: 90%;" onchange="GetViewContentErorrLog(this.value);">
+                            </select>
+                        </div>
+                    </div>
+                    <table id="manager_table_list" class="table table-bordered table-hover" style="width:100%;">
+                    </table>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<div class="modal fade" id="modal-erorrLog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-erorrLog"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="Name">Tên phòng ban/đơn vị</label>
+                            <input type="text" id="Name" class="form-control" name="Name" autofocus>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="Description">Mô tả</label>
+                            <input type="text" id="Description" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Clear()"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="SaveErorrLog()"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-delete-erorrLog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-erorrLog">Xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <p>Bạn có chắc muốn xóa dữ liệu này?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteErorrLog()"><i class="fa-solid fa-trash-can"></i>&nbsp;Xóa dữ liệu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+@section Scripts{
+    <script>
+    loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/system.erorrlog.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('ErorrLog');
+                        });
+                    });
+                });
+            });
+        });</script>
+}
+
+

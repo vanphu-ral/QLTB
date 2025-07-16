@@ -1,0 +1,83 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Đăng nhập hệ thống";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+    <form id="account" method="post">
+        <div class="row px-3 mb-4">
+            <div class="line"></div> <small class="titleline text-center">@ViewData["Title"]</small>
+            <div class="line"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="row px-3">
+            <label class="mb-1">
+                <h6 class="mb-0 text-sm">Tài khoản</h6>
+            </label>
+            <label style="display:none;" asp-for="Input.UserName"></label>
+            <input asp-for="Input.UserName" class="form-control mb-4" placeholder="Nhập tài khoản đăng nhập" />
+            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+        </div>
+        <div class="row px-3">
+            <label class="mb-1">
+                <h6 class="mb-0 text-sm">Mật khẩu</h6>
+            </label>
+            <label style="display:none;" asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" class="form-control mb-4" placeholder="Nhập mật khẩu" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="row px-3 mb-4">
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <label asp-for="Input.RememberMe" class="custom-control-label text-sm">
+                    <input asp-for="Input.RememberMe" class="custom-control-input" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+            <a id="forgot-password" asp-page="./ForgotPassword" class="ml-auto mb-0 text-sm">Quên mật khẩu?</a>
+        </div>
+        <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Đăng nhập</button> </div>
+    </form>
+<div class="row mb-4 px-3"> <small class="font-weight-bold">Bạn chưa có tài khoản?  <a class="text-danger" href="./Register">Đăng ký</a></small> </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function loadStyle(url, callback) {
+            // Adding the link tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = url;
+            link.media = 'all';
+            // Then bind the event to the callback function.
+            // There are several events for cross browser compatibility.
+            link.onreadystatechange = callback;
+            link.onload = callback;
+            // Fire the loading
+            head.appendChild(link);
+        }
+        function loadScript(url, callback) {
+            // Adding the script tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            //script.async = false;
+            script.src = url;
+            // Then bind the event to the callback function.
+            // There are several events for cross browser compatibility.
+            script.onreadystatechange = callback;
+            script.onload = callback;
+            // Fire the loading
+            head.appendChild(script);
+        }
+        loadScript('../../MledIdentity/lib/js/page/login.getinfor.js', function () {
+            $(document).ready(function () {
+                InnitPage('');
+            });
+        });
+    </script>
+}

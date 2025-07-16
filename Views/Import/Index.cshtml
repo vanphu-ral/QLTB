@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+@section Css{
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Lists.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Lists.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Lists.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <!-- /.card-header -->
+        <div class="card-body" id="divMainInformation">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="selectListType">Chọn danh mục</label>
+                        <select placeholder="Chọn loại hồ sơ" id="selectListType" name="selectListType" class="form-control-sm select2 select2-info" data-dropdown-css-class="select2-info" style="width:99%;">
+                            <option value="0" selected>Chọn danh mục</option>
+                            <option value="Department">Danh mục phòng ban/đơn vị</option>
+                            <option value="Factory">Danh mục xưởng</option>
+                            <option value="Branch">Danh mục ban ngành</option>
+                            <option value="Team">Danh mục tổ đội sản xuất</option>
+                            <option value="Line">Danh mục dây chuyền sản xuất</option>
+                            <option value="DeviceGroup">Danh mục nhóm thiết bị</option>
+                            <option value="Device">Danh mục thiết bị</option>
+                            <option value="SupplieGroup">Danh mục nhóm vật tư, phụ tùng</option>
+                            <option value="Supplie">Danh mục vật tư, phụ tùng</option>
+                            <option value="Role">Danh mục nhóm người dùng</option>
+                            <option value="User">Danh mục người dùng</option>
+                            <option value="Shift">Danh mục ca sản xuất</option>
+                            <option value="Position">Danh mục chức vụ</option>
+                            <option value="Threshold">Danh mục giá trị ngưỡng cảnh báo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputFile">Chọn file</label>
+                        <div class="custom-file" id="divSelectedFile">
+                            <input type="file" class="custom-file-input" id="exampleInputFile" name="exampleInputFile">
+                            <label class="custom-file-label" id="labelexampleInputFile" for="exampleInputFile"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button id="btImportData" type="button" class="ml-auto btn btn-default"><i class="fa-solid fa-file-import text-primary"></i>Import to DB</button>
+                        <button id="btExportData" type="button" class="ml-auto btn btn-default"><i class="fa-solid fa-file-arrow-down text-warning"></i>Export to Excel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <span id="span-noti"></span>
+                </div>
+                <div class="col-md-12">
+                    <table id="manager_table_list" class="table table-bordered table-hover">
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<!-- /.container-fluid -->
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/list.all.imports.js', function () {
+                        $(document).ready(function () {
+                            InnitPage('Import');
+                        });
+                    });
+                });
+            });
+        });</script>
+}
+
+

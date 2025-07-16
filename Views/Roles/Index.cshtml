@@ -1,0 +1,90 @@
+﻿@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml"; }
+@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityRole>
+@using MledNew2023.MVC.Constants
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title "><b>Quản lý Nhóm người dùng</b></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+    <form method="post" asp-action="addrole" asp-controller="roles">
+        <div class="input-group">
+            <input name="roleName" class="form-control w-25">
+            <span class="input-group-btn">
+                <button class="btn btn-info">Thêm nhóm mới</button>
+            </span>
+        </div>
+    </form>
+                    <table class="table table-striped" id="roleTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Tên nhóm
+                                </th>
+                                <th style="width:10%">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var role in Model)
+                            {
+            <tr>
+                <td>
+                    <a>
+                        @role.Name
+                    </a>
+
+                    <br>
+                    <small>
+                        @role.Id
+                    </small>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </button>
+                        <div class="dropdown-menu shadow animated--grow-in">
+                            <a class="dropdown-item">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            <form class="d-inline">
+                                <a class="dropdown-item"><i class="fas fa-trash-alt"></i> Delete</a>
+                            </form>
+                            @if (role.Name != "SuperAdmin")
+                            {
+
+        <a style='margin-right:16px' asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id" class="dropdown-item">
+            <i class="fas fa-wrench"></i> Manage Permissions
+        </a>}
+                        </div>
+                    </div>
+                </td>
+            </tr>}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div> <!-- /.container-fluid --> 
+
+
+

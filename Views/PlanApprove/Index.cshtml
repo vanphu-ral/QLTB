@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+@section Css{
+    <link rel="stylesheet" href="~/css/siteapprpve.css">
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanApprove.Create)).Result.Succeeded)
+{
+    <input type="hidden" id="isAdd" value="1" />
+}
+else
+{
+    <input type="hidden" id="isAdd" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanApprove.Edit)).Result.Succeeded)
+{
+    <input type="hidden" id="isEdit" value="1" />
+}
+else
+{
+    <input type="hidden" id="isEdit" value="0" />
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.PlanApprove.Delete)).Result.Succeeded)
+{
+    <input type="hidden" id="isDelete" value="1" />
+}
+else
+{
+    <input type="hidden" id="isDelete" value="0" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header row" id="divFiltertoolbar">
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <table id="manager_table_list" class="table table-bordered table-hover borderless">
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+
+<div class="modal fade" id="modal-bieumau" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Note">Nhập lý do từ chối ký duyệt và yêu cầu (nếu có)</label>
+                            <input type="text" id="Note" class="form-control" name="Note" autofocus>
+                            <input type="hidden" id="IndexSelected">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span>&nbsp;Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="UpdatePlanStatus(-1, 2)"><i class="fa-solid fa-sd-card"></i>&nbsp;Lưu</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="modal-manager-nguoidung" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-manager-nguoidung">Chi tiết hồ sơ đang chọn</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='embed-responsive' style="height:570px;">
+                    <iframe id="idiframeUseManager" src="/printPlanPeriodic.html?PlanNumber=2.2022/KHDK-LED.LED2&NumberAju=0&year=2022&month=8&BranchId=2"
+                            height="550" frameborder="0" allowtransparency="true"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                @*<button type="button" class="btn btn-primary" onclick="SaveManagerUser()"><i class="fa fa-check"></i>Lưu thông tin</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+@section Scripts{
+    <script>
+        loadScript('MledIdentity/lib/js/page/site.page.js', function () {
+            loadScript('MledIdentity/lib/js/page/site.control.innit.js', function () {
+                loadScript('MledIdentity/lib/js/page/create.control.select.js', function () {
+                    loadScript('MledIdentity/lib/js/page/plan.open.view.js', function () {
+                        loadScript('MledIdentity/lib/js/page/plan.approve.js', function () {
+                            $(document).ready(function () {
+                                InnitPage('PlanApprove');
+                            });
+                        });
+                    });
+                });
+            });
+        });</script>
+}

@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Popup.cshtml";
+}
+
+@model MledNew2023.MVC.Models.ManageUserRolesViewModel
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using MledNew2023.MVC.Constants
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="card-title "><b>Phân nhóm cho người dùng: @Model.UserName</b></h3>
+                    @*<a class="ml-auto btn btn-info" title="Manage" href="/User"><i class="fas fa-angle-left"></i><span css="spanback">Trở về trang quản lý người dùng</span></a>*@
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="divMainInformation">
+                    <form id="formRoleUsers" asp-controller="userroles" method="post" asp-action="update" asp-route-id="@Model.UserId" class="d-inline">
+                        <input asp-for="@Model.UserId" type="hidden" />
+                        <table class="table table-striped" id="userRolesTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Nhóm người dùng
+                                    </th>
+                                    <th>
+                                        Chọn
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @for (int i = 0; i < Model.UserRoles.Count(); i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input asp-for="@Model.UserRoles[i].RoleName" type="hidden" />
+                                            @Model.UserRoles[i].RoleName
+                                        </td>
+                                        <td>
+                                            <div class="form-check m-1">
+                                                <input asp-for="@Model.UserRoles[i].Selected" class="form-check-input" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="col-sm-12" style="padding: 20px 20px 0px 0px">
+                            <button type="submit" id="btSaveUserRoles" class="btn btn-success">
+                                <i class="fa fa-check"></i>Lưu thông tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
